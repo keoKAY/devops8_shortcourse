@@ -7,8 +7,6 @@
 # 1. Install the zsh 
 sudo install zsh -y 
 
-
-
 # confirm installation
 which zsh 
 zsh --version

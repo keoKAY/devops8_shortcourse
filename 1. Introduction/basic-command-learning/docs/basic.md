@@ -68,4 +68,25 @@ mv message-copy.txt destdirectory
 
 cp *.txt destdirectory # copy all .txt files 
 mv *.txt sourcedirectory # move all .txt files
+
+
+# check disk on machine 
+df -h 
+
+
+getent group
+getent services 
+
+# sudo systemctl verb service 
+sudo service nginx status 
+sudo sytemctl status nginx 
+sudo systemctl reload nginx 
+sudo systemctl stop nginx 
+sudo systemctl start nginx 
+sudo systemctl disable nginx 
+
+sudo systemctl daemon-reload 
+
+sudo init 0 # shutdown
+sudo reboot # reboot 
 ```

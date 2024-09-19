@@ -21,7 +21,10 @@ adduser
 
 sudo useradd therock # useful for script writing 
 sudo adduser thor  # high-level  interactive 
-sudo useradd --shell /usr/bin/zsh --create-home loki
+sudo useradd \
+    --shell /usr/bin/bash \
+    --create-home loki
+
 sudo passwd loki
 exit 
 su loki  # switch to user , but doesn't change the dir

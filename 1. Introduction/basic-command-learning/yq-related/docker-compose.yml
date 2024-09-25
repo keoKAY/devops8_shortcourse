@@ -1,0 +1,22 @@
+services:
+  nginx-another:
+    image: nginx:latest
+    container_name: nginx-another
+  nginx-basic: 
+    image: nginx:latest
+    container_name: nginx-container
+    ports: 
+      - "8080:80"
+    volumes:
+      - vol:/usr/share/nginx/html
+    networks: 
+      - nginx-net 
+networks:
+  nginx-net:
+    driver: bridge
+volumes:
+  vol:
+
+
+
+plugins=(git)

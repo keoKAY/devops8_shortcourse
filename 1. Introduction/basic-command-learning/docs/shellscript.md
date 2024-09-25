@@ -14,3 +14,12 @@ source script.sh
 # rename script.mp3 to script.sh 
 mv script.mp3 script.sh
 ```
+
+## Special vairables 
+
+
+
+## Control flow 
+* `[]` : original 
+* `[[]]` : enhanced version of []
+* `(())` : C style 

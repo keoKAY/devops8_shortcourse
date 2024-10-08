@@ -25,4 +25,17 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 docker --version 
 docker -v 
 docker compose version 
+
+# test the docker permission 
+docker ps 
+sudo docker ps 
+
+
+# add current user into the docker group 
+sudo usermod -aG docker $USER
+sudo usermod -aG docker keo
+sudo usermod -aG docker $(whoami)
+
+
+docker run hello-world 
 ```

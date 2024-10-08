@@ -30,6 +30,7 @@ currentdirectory="$(pwd)"
 * `sites-enabled`
 
 
+### Method One 
 1. write the  nginx configuration for reverse proxying 
 - need to have a domain name : `reactjs.devnerd.shop`  
 - service ( reactjs service ) is running on port `3000`
@@ -72,6 +73,17 @@ sudo nginx -t
 ```bash
 sudo systemctl restart nginx
 nginx -s reload 
+```
+
+
+### Method Two 
+1. write nginx configuration inside the directry `/etc/nginx/conf.d/website.conf` : 
+```bash 
+# Test syntax of the config 
+sudo nginx -t 
+# reload nginx 
+sudo nginx -s reload 
+
 ```
 ## Additional 
 

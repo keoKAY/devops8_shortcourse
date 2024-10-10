@@ -71,3 +71,25 @@ sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d reactjs.devnerd.shop
 
 ```
+
+
+## Working with dockerfile , docker image , and docker container 
+```bash 
+
+docker pull hello-world
+docker pull nginx:alpine
+
+# run as a container 
+docker run -p 3000:80 \
+  nginx:alpine
+
+# run in detach mode ( background mode )
+docker run -d -p 3000:80 \
+  --name nginx-container \
+  nginx:alpine
+
+
+
+
+
+```

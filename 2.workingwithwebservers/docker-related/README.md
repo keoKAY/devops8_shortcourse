@@ -52,3 +52,22 @@ docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:alpine
 
 ```
+
+
+## Running nginx container 
+
+```bash 
+docker run  -d -p 9000:80 \
+  --name nginx-container  \
+  nginx:alpine
+```
+
+
+## Using certbot to get the ssl certificate 
+```bash 
+sudo apt install certbot python3-certbot-nginx -y
+
+# generate ssl for a domain
+sudo certbot --nginx -d reactjs.devnerd.shop
+
+```

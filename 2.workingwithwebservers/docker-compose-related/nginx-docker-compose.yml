@@ -1,0 +1,3 @@
+services: 
+  first_nginx: 
+    image: nginx:latest

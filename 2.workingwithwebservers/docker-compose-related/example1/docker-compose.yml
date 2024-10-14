@@ -1,0 +1,33 @@
+services:
+  postgres-db: 
+    image: postgres:16-bullseye
+    container_name: postgres-container
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      # - ./data:/var/lib/postgresql/data
+      - postgres-vol:/var/lib/postgresql/data
+    ports: 
+      - "5435:5432"
+  first-nginx:
+    image: nginx:alpine  
+    container_name: first-nginx-cont
+    ports:
+      - "8080:80"
+    volumes:
+    # bindmount -> hostpath:containerPath
+      - "./index-1.html:/usr/share/nginx/html/index.html" # read only 
+     # - ./index-1.css:/usr/share/nginx/html/index.css:rw # read write
+  second-nginx:
+    image: nginx:alpine
+    container_name: second-nginx-cont
+    ports:
+      - "8081:80"
+    volumes:
+      - "./index-2.html:/usr/share/nginx/html/index.html"  
+volumes:
+  postgres-vol:
+    
+    

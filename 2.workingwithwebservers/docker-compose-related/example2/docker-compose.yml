@@ -1,0 +1,22 @@
+services:
+  postgres-one-db: 
+    extends: 
+      file: base/postgres.yml
+      service: base-postgres
+    container_name: postgres-one-container
+    volumes:
+      - postgres-vol-1:/var/lib/postgresql/data
+    ports: 
+      - "5435:5432"
+  postgres-two-db: 
+    extends: 
+      file: base/postgres.yml
+      service: base-postgres
+    container_name: postgres-two-container
+    volumes:
+      - postgres-vol-2:/var/lib/postgresql/data
+    ports: 
+      - "5436:5432"
+volumes:
+  postgres-vol-1:
+  postgres-vol-2:

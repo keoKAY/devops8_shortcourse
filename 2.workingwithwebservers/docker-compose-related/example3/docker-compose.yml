@@ -1,0 +1,11 @@
+# Note that we need to run this inside the reactjs17-templates folder 
+# which also need the dev.Dockerfile and the nginx.conf file
+services:
+  reactjs-srv:
+    container_name: reactjs-container
+    image: dockerhub/reactjs-nginx:v1.0.0
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    ports:
+      - "3000:80"

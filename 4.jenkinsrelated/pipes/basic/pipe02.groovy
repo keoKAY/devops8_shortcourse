@@ -21,9 +21,10 @@ pipeline {
 
         stage("Add domain name"){
             steps{
+                // add condition here 
                 echo "Run shellscript to add domain "
                 sh """
-                sudo bash /home/keo/utilitlies/adddomain.sh  new-reactjs  3000
+                sudo bash /home/keo/utilities/adddomainssl.sh  new-reactjs  3000
                 """
             }
         }

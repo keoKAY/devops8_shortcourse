@@ -8,3 +8,20 @@
 1cf9690eebf044299ba4a1e8991f0f94
 docker exec -it jenkins_cont /bin/bash -c 'cat /var/jenkins_home/secrets/initialAdminPassword'
 ```
+
+
+
+*** 
+```bash 
+# add jenkins to the docker group 
+sudo usermod -aG docker jenkins
+sudo   systemctl  restart  jenkins
+
+
+gh auth  login # token -> repo , workflow , org:read
+```
+
+* **Practice one** : Deploy Reactjs Project 
+-> Get code ( Git(gitlab, github ) )
+-> Build ( docker ) -> docker image 
+-> Deploy Run in the server as a container 

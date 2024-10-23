@@ -1,0 +1,36 @@
+services:
+  jenkins:
+    build: 
+      context: . 
+      dockerfile: prod.Dockerfile
+    container_name: jenkins
+    pull_policy: build 
+    restart: unless-stopped
+    privileged: true
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      # this is for adding the domain name 
+      - /usr/bin/ansible:/usr/bin/ansible
+      - /home/keo/.ssh:/root/.ssh
+      # - /usr/sbin/nginx:/usr/sbin/nginx
+      # - /usr/bin/certbot:/usr/bin/certbot
+      # - ~/utilities:/utilities
+      # - /usr/bin/docker:/usr/bin/docker
+    environment:
+      - DOCKER_TLS_CERTDIR=""
+      # - JENKINS_OPTS="--prefix=/jenkins"
+    networks:
+      - jenkins
+
+networks:
+  jenkins:
+    driver: bridge
+
+volumes:
+  jenkins_home:
+    driver: local

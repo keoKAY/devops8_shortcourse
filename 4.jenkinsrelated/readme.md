@@ -19,6 +19,9 @@ sudo   systemctl  restart  jenkins
 
 
 gh auth  login # token -> repo , workflow , org:read
+
+
+jenkins ALL=(ALL) NOPASSWD:ALL
 ```
 
 * **Practice one** : Deploy Reactjs Project 

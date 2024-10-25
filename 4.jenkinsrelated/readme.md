@@ -28,3 +28,17 @@ jenkins ALL=(ALL) NOPASSWD:ALL
 -> Get code ( Git(gitlab, github ) )
 -> Build ( docker ) -> docker image 
 -> Deploy Run in the server as a container 
+
+
+
+***
+## Workingw tih glab 
+
+```bash 
+sudo snap install glab  
+glab repo create projectname 
+git remote add origin https://lyvanna544:gitlabtoken@gitlab.com/lyvanna544/reactjs-devop8-template.git
+
+# set the username  password for when you push anotehr code 
+git config --global credential.helper store
+```

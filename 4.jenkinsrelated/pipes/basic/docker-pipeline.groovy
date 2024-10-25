@@ -39,6 +39,7 @@ pipeline{
                     sh """
                      docker push ${USERNAME}/${IMAGE_NAME}:${TAG}
                     """
+                    
                 }
             }
           

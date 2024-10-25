@@ -44,6 +44,19 @@ pipeline{
           
         }
        }
+
+       stage("Deploy Service"){
+        steps{
+            sh """
+            docker stop reactjs-pipe-cont || true 
+            docker rm reactjs-pipe-cont  || true 
+            docker run -dp 3000:80 --name reactjs-pipe-cont ${USERNAME}/${IMAGE_NAME}:${TAG}
+
+            """
+        }
+       }
+
+
        }    
     
 }

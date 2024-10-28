@@ -27,7 +27,7 @@ pipeline{
             // send message ( notification channel )
             sh  "  echo 'This pipeline results in failure' "
         }
-        cleanUp{
+        cleanup{
             cleanWs()
         }
     }

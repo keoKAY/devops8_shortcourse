@@ -36,6 +36,7 @@ def sendTelegramMessage(message){
         -d chat_id=${TELEGRAM_CHAT_ID}  \
         -d text="${message}" \
         -d parse_mode=MarkdownV2
+        
             
     """
 }

@@ -46,7 +46,7 @@ pipeline{
                         sh """
                         echo " No need to build since you QG is failed "
                         """
-                        // currentBuild.result='FAILURE'
+                        currentBuild.result='FAILURE'
                         return
                     }else {
                          currentBuild.result='SUCCESS'
@@ -93,6 +93,7 @@ pipeline{
     }
     post{
         success{
+            // can add the condition here as well 
             script{
                
                 def message = """

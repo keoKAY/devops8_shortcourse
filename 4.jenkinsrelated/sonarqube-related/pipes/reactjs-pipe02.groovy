@@ -1,3 +1,4 @@
+@Library("useful-lib@master") _
 pipeline{
     agent any 
      environment{

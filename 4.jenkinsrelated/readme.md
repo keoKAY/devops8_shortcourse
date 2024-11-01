@@ -42,3 +42,7 @@ git remote add origin https://lyvanna544:gitlabtoken@gitlab.com/lyvanna544/react
 # set the username  password for when you push anotehr code 
 git config --global credential.helper store
 ```
+
+
+
+### Working with master and slave 

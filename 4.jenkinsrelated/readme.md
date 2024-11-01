@@ -46,3 +46,11 @@ git config --global credential.helper store
 
 
 ### Working with master and slave 
+
+```bash
+ssh-keygen 
+
+# remove from knownhost 
+ssh-keygen -R 34.126.90.131
+ssh keo@34.126.90.131
+```

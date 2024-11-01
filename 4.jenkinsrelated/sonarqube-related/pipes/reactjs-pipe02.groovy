@@ -1,6 +1,9 @@
 pipeline{
     agent any 
-
+     environment{
+        TELEGRAM_TOKEN="7830516253:AAHfv7jv7AQSFN63UYJSnJtIIJVQNzVFqvQ"
+        TELEGRAM_CHAT_ID="683081514"
+    }
 
     stages{
         stage("Git Checkout"){
@@ -43,26 +46,61 @@ pipeline{
                         sh """
                         echo " No need to build since you QG is failed "
                         """
-                        // return // no need to continue to the next step 
+                        // currentBuild.result='FAILURE'
+                        return
                     }else {
-                        sh """
-                        echo "Now we build , push and deploy the service " 
-                        """
+                         currentBuild.result='SUCCESS'
                     }
                 }
                 }
             }
         }
 
-        stage("Build Image"){
+        stage("Build and Deploy"){
+            when{
+                expression {
+                    return currentBuild.result == 'SUCCESS'
+                }
+            }
             steps{
                 sh """
+                docker compose up -d --build
 
-                echo " Now start building the image " 
                 """
             }
         }
 
+        stage("Push to Registry"){
+             when{
+                expression {
+                    return currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps{
+                 
+                 script{
+                def imageName="69966/reactjs-jenkins-nginx:v1.0.0"
+                withDockerRegistry(credentialsId: 'DOCKERHUB') {
+                    sh """
+                    docker push ${imageName}
+                    """
+                }
+                 }
+            }
+        }
 
+
+    }
+    post{
+        success{
+            script{
+               
+                def message = """
+                Congratulations
+                You can access your website here: https://new\\-reactjs\\.devnerd\\.store
+                """
+                sendTelegramMessage(message,TELEGRAM_TOKEN, TELEGRAM_CHAT_ID)
+            }
+        }
     }
 }

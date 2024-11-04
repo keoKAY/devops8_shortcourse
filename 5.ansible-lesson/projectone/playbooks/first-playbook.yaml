@@ -2,18 +2,16 @@
 - name: First Playbook 
   hosts: workers
   become: true
-
-
 #   options 
   tasks:
-    - name: Show working directory of worker 
-      become_user: keo
-      debug:    
-        msg: "The directory is : {{ ansible_user_dir }}"
+    # - name: Show working directory of worker 
+    #   become_user: keo
+    #   debug:    
+    #     msg: "The directory is : {{ ansible_user_dir }}"
     - name: Create a file in home directory
       become: true  
       file: 
-        path: /home/keo/whateveriti222s.txt
+        path: "{{ansible_user_dir}}/whateveriti222s.txt"
         state: touch
     - name: Install nginx  and tree 
       apt: 
@@ -21,10 +19,10 @@
             - nginx 
             - tree 
         state: present 
-    - name: Remove nginx from the system 
-      apt: 
-        name: nginx 
-        state: absent
+    # - name: Remove nginx from the system 
+    #   apt: 
+    #     name: nginx 
+    #     state: absent
 
 
 # ansible-playbook -i inventory.ini playbooks/first-playbook.yaml

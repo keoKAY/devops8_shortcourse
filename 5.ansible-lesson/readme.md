@@ -22,6 +22,7 @@ ssh james@34.126.90.131
 
 * Commands 
 ```bash 
+ ssh-copy-id sa@server-ip
 
 ansible -i inventory.ini all -m ping
 ansible -i inventory.ini workers -m ping

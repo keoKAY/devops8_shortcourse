@@ -1,0 +1,16 @@
+all: 
+  children: 
+    masters: 
+      hosts: 
+        master01: 
+          ansible_connection: local 
+    workers: 
+      hosts: 
+        worker01: 
+          ansible_host: 34.126.90.131 
+          ansible_user: keo
+        worker02: 
+          ansible_host: 34.124.231.210
+          ansible_user: keo
+
+# ansible -i hosts.yaml all -m ping

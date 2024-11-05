@@ -8,6 +8,11 @@
     - worker02 
     # - master01
   become: true 
+  vars: 
+    worker_username: james
+    worker_password: jamespassword
+    ssh_public_key: "{{ lookup('file', '/home/keo/.ssh/id_rsa.pub') }}"  # Specify the path to your public key file
+
   tasks:
 
     - import_tasks: ../tasks/create-user.yaml

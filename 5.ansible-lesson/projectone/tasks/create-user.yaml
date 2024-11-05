@@ -1,3 +1,29 @@
 - name: Show Message Testing
   debug: 
     msg: "This task is included in the playbook "
+- name: Create User james 
+  user: 
+    name: "{{ worker_username }}"
+    shell: /bin/bash
+    create_home: true 
+    state: present
+    password: "{{ worker_password | password_hash('sha512') }}"
+- name: Add james tobe a sudoer
+  user:
+      name: "{{ worker_username }}" 
+      groups: sudo 
+      append: true 
+- name: Modify the visudoer for Nopasswd 
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ worker_username }} ALL=(ALL) NOPASSWD: ALL"  # Replace with the desired username
+    validate: '/usr/sbin/visudo -cf %s'  # Validate syntax after editing
+- name: Allow the Ansible controller to SSH without password 
+  authorized_key: 
+    user: "{{ worker_username }}"
+    state: present 
+    key: "{{ ssh_public_key }}"
+
+
+
+

@@ -3,6 +3,7 @@
   hosts: 
     - worker02
   become: true
+
 #   options 
   tasks:
     - name: update and upgrade apt 

@@ -28,3 +28,18 @@ ansible -i inventory.ini all -m ping
 ansible -i inventory.ini workers -m ping
 ansible -i inventory.ini worker01 -m ping
 ```
+
+
+
+* Playbook related commands 
+```bash 
+ansible-playbook -i inventory.ini playbooks/second-playbook.yaml -K
+# --ask-become-pass 
+
+
+
+```
+* to make sure that it wont ask for password again (not for root )
+- Create a new user ( james )
+- Create keypair (ssh-keygen) , create a file called authorized_keys
+- Copy pub key ( ansible control node ) to remote authorized_keys

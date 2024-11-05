@@ -2,21 +2,15 @@
 # -> create user , add that user to sudoer 
 # tasks: -> install software  -> docker , docker compose , nginx 
 ---
+- import_playbook: ./first-playbook.yaml
 - name: Install packages 
   hosts: 
     - worker02 
     # - master01
   become: true 
   tasks:
-    - name: update and upgrade apt 
-      apt: 
-        update_cache: yes 
-    - name: upgrade disk 
-      apt: 
-        upgrade: dist
-    - name: remove unncessary packages 
-      apt: 
-        autoremove: yes
+
+    - import_tasks: ../tasks/create-user.yaml
     - name: Install nginx
       apt: 
         name:

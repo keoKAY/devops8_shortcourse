@@ -1,0 +1,3 @@
+- name: Show Message Testing
+  debug: 
+    msg: "This task is included in the playbook "

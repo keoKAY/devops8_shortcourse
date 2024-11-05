@@ -1,24 +1,34 @@
 ---
 - name: First Playbook 
-  hosts: workers
+  hosts: 
+    - worker02
   become: true
 #   options 
   tasks:
+    - name: update and upgrade apt 
+      apt: 
+        update_cache: yes 
+    - name: upgrade disk 
+      apt: 
+        upgrade: dist
+    - name: remove unncessary packages 
+      apt: 
+        autoremove: yes
     # - name: Show working directory of worker 
     #   become_user: keo
     #   debug:    
     #     msg: "The directory is : {{ ansible_user_dir }}"
-    - name: Create a file in home directory
-      become: true  
-      file: 
-        path: "{{ansible_user_dir}}/whateveriti222s.txt"
-        state: touch
-    - name: Install nginx  and tree 
-      apt: 
-        name: 
-            - nginx 
-            - tree 
-        state: present 
+    # - name: Create a file in home directory
+    #   become: true  
+    #   file: 
+    #     path: "{{ansible_user_dir}}/whateveriti222s.txt"
+    #     state: touch
+    # - name: Install nginx  and tree 
+    #   apt: 
+    #     name: 
+    #         - nginx 
+    #         - tree 
+    #     state: present 
     # - name: Remove nginx from the system 
     #   apt: 
     #     name: nginx 

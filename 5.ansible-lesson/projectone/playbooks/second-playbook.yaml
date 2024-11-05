@@ -17,6 +17,19 @@
     - name: remove unncessary packages 
       apt: 
         autoremove: yes
+    - name: Install nginx
+      apt: 
+        name:
+          - nginx 
+          - tree 
+          - jq
+          - neofetch
+          - fd-find
+        state: present
+      # ignore_errors: yes
+    - name: Install docker after nginx 
+      debug: 
+        msg: "This is tasks after the first one "
 
 # To check if the syntax correct or not 
 # ansible-playbook --syntax-check -i inventory.ini  playbooks/second-playbook.yaml 

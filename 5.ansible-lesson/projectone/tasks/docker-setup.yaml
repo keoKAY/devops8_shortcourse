@@ -1,0 +1,14 @@
+- name: Install Docker  
+  apt: 
+    name: docker 
+    state: present 
+- name: Install docker compose 
+  apt: 
+    name: docker-compose 
+    state: present 
+- name: Add current user into docker group 
+  user: 
+    name: keo # variables for the current user 
+    groups: 
+      - docker 
+    append: true

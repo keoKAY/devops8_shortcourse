@@ -1,0 +1,9 @@
+- name: Copy dockercompose file to remote machine 
+  copy:
+    src: docker-compose.yaml
+    dest: /home/keo/workspace/docker-compose.yaml
+- name: Start the docker compose service 
+  command: docker-compose up -d 
+  args: 
+    chdir: /home/keo/workspace
+ 

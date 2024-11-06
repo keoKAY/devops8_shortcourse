@@ -16,6 +16,7 @@
   tasks:
 
     - import_tasks: ../tasks/create-user.yaml
+      when: false
     - name: Install nginx
       apt: 
         name:
@@ -26,9 +27,12 @@
           - fd-find
         state: present
       # ignore_errors: yes
-    - name: Install docker after nginx 
-      debug: 
-        msg: "This is tasks after the first one "
+    - import_tasks: ../tasks/docker-setup.yaml
+    - import_tasks: ../tasks/dc-deploy-reactjs.yaml
+    
+    # - name: Install docker after nginx 
+    #   debug: 
+    #     msg: "This is tasks after the first one "
 
 # To check if the syntax correct or not 
 # ansible-playbook --syntax-check -i inventory.ini  playbooks/second-playbook.yaml 

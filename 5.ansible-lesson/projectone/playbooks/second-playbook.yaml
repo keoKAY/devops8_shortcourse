@@ -27,7 +27,9 @@
           - fd-find
         state: present
       # ignore_errors: yes
+      when: false
     - import_tasks: ../tasks/docker-setup.yaml
+      when: false
     - import_tasks: ../tasks/dc-deploy-reactjs.yaml
     
     # - name: Install docker after nginx 

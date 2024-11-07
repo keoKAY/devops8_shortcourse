@@ -2,8 +2,19 @@
   copy:
     src: docker-compose.yaml
     dest: /home/keo/workspace/docker-compose.yaml
-- name: Start the docker compose service 
-  command: docker-compose up -d 
+- name: Stop old the docker compose service 
+  command: docker-compose down 
   args: 
     chdir: /home/keo/workspace
- 
+# Do the same thing , without copying the file 
+- name: Start Reactjs with docker compose
+  docker_compose: 
+    project_name: reactjs-new-srv
+    definition:
+      services:
+        reactjs_srv:   
+          image: 69966/reactjs-jenkins-nginx:v1.0.0
+          container_name: reactjs-new-cont
+          ports: 
+            - "3000:80"
+    

@@ -43,3 +43,24 @@ ansible-playbook -i inventory.ini playbooks/second-playbook.yaml -K
 - Create a new user ( james )
 - Create keypair (ssh-keygen) , create a file called authorized_keys
 - Copy pub key ( ansible control node ) to remote authorized_keys
+
+
+
+
+## Working with jenkins 
+> Normally we can ssh with the current user ( ex. username = james  )
+> Now we want to allow jenkins to ssh as well ( using the existing ssh setup that james has )
+
+
+```bash 
+# This is the home directory of jenkins user 
+cd /var/lib/jenkins
+
+sudo rm -rf /var/lib/jenkins/.ssh # (delete directory of jenkins )
+mkdir .ssh 
+# Copy private key to the jenkins' home directory 
+sudo cp /home/keo/.ssh/id_rsa /var/lib/jenkins/.ssh/
+# change user:group of the .ssh directory 
+sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh/*
+
+```

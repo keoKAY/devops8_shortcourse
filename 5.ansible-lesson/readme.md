@@ -27,6 +27,18 @@ ssh james@34.126.90.131
 ansible -i inventory.ini all -m ping
 ansible -i inventory.ini workers -m ping
 ansible -i inventory.ini worker01 -m ping
+
+
+# write this inside your file ansible.cfg
+[defaults]
+inventory = ./hosts
+host_key_checking = False
+
+[ssh_connection]
+ssh_args = -o StrictHostKeyChecking=no
+
+# to configure the ansible config anywhere you like
+export ANSIBLE_CONFIG=./ansible.cfg
 ```
 
 
@@ -53,6 +65,10 @@ ansible-playbook -i inventory.ini playbooks/second-playbook.yaml -K
 
 
 ```bash 
+
+# to become root 
+su - 
+sudo -i 
 # This is the home directory of jenkins user 
 cd /var/lib/jenkins
 
@@ -62,5 +78,5 @@ mkdir .ssh
 sudo cp /home/keo/.ssh/id_rsa /var/lib/jenkins/.ssh/
 # change user:group of the .ssh directory 
 sudo chown -R jenkins:jenkins /var/lib/jenkins/.ssh/*
-
+# make sure that the jenkins permissio nof the id_rsa is 600
 ```

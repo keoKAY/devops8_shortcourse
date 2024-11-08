@@ -1,13 +1,17 @@
----
 - name: Second Project 
   hosts: master01 # localhost
   gather_facts: false
   vars_files:
     - vars.yml
+  vars:
+    image_name: nginx:latest
   # vars: 
   #    database_username: postgres_user
   #    database_password: postgres2345
   tasks: 
+    - name: Print the docker image name 
+      debug: 
+        msg: "Image name is : {{ image_name }}"
     - name: Printing secret values 
       debug: 
         msg: "{{database_username}} and {{database_password}} "

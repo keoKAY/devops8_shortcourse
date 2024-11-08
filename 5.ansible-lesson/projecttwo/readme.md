@@ -21,4 +21,10 @@ ansible-playbook -i inventory.ini \
     playbooks/first-playbook.yml \
     --vault-password-file secret.txt
 
+#  override the vars image_name
+# -e = --extra-vars
+ansible-playbook -i inventory.ini \
+    playbooks/first-playbook.yml \
+    -e "image_name=postgres:latest" \
+    --vault-password-file secret.txt
 ```

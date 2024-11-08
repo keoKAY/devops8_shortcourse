@@ -31,7 +31,7 @@ ansible -i inventory.ini worker01 -m ping
 
 # write this inside your file ansible.cfg
 [defaults]
-inventory = ./hosts
+inventory = ./host
 host_key_checking = False
 
 [ssh_connection]

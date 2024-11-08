@@ -1,2 +1,2 @@
-service_account_path:
-google_project_id:
+service_account_path: location-to-service-acc.json
+google_project_id: your-google-project-id

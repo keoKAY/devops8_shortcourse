@@ -1,0 +1,16 @@
+machines: 
+  master01: 
+    image: ubuntu
+    machine_type: standard-machine
+    zone: cambodia
+    disk: 90 
+  server02: 
+    image: ubuntu 
+    machine_type: standard-machine
+    zone: singapore 
+    disk: 90
+  server03: 
+    machine_type: standard-machine
+    image: ubuntu 
+    zone: singapore 
+    disk: 90

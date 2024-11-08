@@ -1,0 +1,7 @@
+---
+- name: Creating instance in Digital Ocean 
+  hosts: localhost
+  gather_facts: no
+  tasks: 
+    - import_tasks: ./tasks/create-digitalocean-instance.yml
+       

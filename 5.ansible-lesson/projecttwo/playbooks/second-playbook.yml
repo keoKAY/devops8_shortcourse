@@ -1,0 +1,10 @@
+---
+- name: Show hostvar group vars 
+  hosts: all 
+  tasks: 
+    - name: "Printing credentials"
+      debug: 
+        msg: "Credentials is : {{credentials.admin.username}} and pass: {{credentials.admin.password}}"
+
+
+# ansible-playbook -i inventory.ini playbooks/second-playbook.yml

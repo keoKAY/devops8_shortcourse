@@ -10,10 +10,10 @@
     oauth_token: "your-do-api-token" # Replace with your DO API token
     unique_name: yes
     monitoring: yes
-    vpc_uuid: "default" # Optional: Specify VPC UUID if needed
-    tags:
-      - "production"
-      - "web"
+    # vpc_uuid: "default" # Optional: Specify VPC UUID if needed
+    # tags:
+    #   - "production"
+    #   - "web"
   register: droplet
 - name: Show the droplet info
   debug:

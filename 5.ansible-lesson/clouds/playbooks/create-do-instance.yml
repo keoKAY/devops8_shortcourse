@@ -4,4 +4,6 @@
   gather_facts: no
   tasks: 
     - import_tasks: ./tasks/create-digitalocean-instance.yml
-       
+
+# inside clouds directory 
+# ansible-playbook -i inventory.ini playbooks/create-do-instance.yml

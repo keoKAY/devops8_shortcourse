@@ -38,3 +38,14 @@
 - name: Show instance details
   debug:
     var: gcp_instance
+- name: Write gcp_instance into json file
+  copy:
+    content: "{{ gcp_instance }}"
+    dest: "./gcp_instance.json"
+- name: Show instance details
+  debug:
+    var: gcp_instance
+- name: Update inventory using jinjar template 
+  template:
+    src: ../templates/inventory-template.j2
+    dest: ./inventory-v2.ini

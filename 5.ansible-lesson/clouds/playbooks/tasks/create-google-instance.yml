@@ -15,7 +15,13 @@
     project: "{{google_project_id}}"
     auth_kind: "serviceaccount"
     service_account_file: "{{ service_account_path }}"
-    state: absent
+    state: present
+    metadata:
+      ssh-keys: "keo:{{ ssh_pubkey['content'] | b64decode }}"
+      startup-script: |
+        #!/bin/bash 
+        sudo apt update 
+        sudo apt install nginx -y
     disks:
       - auto_delete: true
         boot: true
@@ -24,8 +30,8 @@
           disk_size_gb: 20
           disk_type: "pd-standard"
     network_interfaces:
-      - network: 
-         selfLink: "projects/{{google_project_id}}/global/networks/default"
+      - network:
+          selfLink: "projects/{{google_project_id}}/global/networks/default"
         access_configs:
           - name: External NAT
             type: ONE_TO_ONE_NAT
@@ -45,7 +51,7 @@
 - name: Show instance details
   debug:
     var: gcp_instance
-- name: Update inventory using jinjar template 
+- name: Update inventory using jinjar template
   template:
     src: ../templates/inventory-template.j2
     dest: ./inventory-v2.ini

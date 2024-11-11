@@ -1,7 +1,7 @@
-# - name: Slurp pub key from local machine
-#   slurp:
-#     src: "{{ ssh_pubkey_path }}"
-#   register: ssh_pubkey
+- name: Slurp pub key from local machine
+  slurp:
+    src: "{{ ssh_pubkey_path }}"
+  register: ssh_pubkey
 - name: Create new DigitalOcean droplet
   community.digitalocean.digital_ocean_droplet:
     state: present
@@ -9,9 +9,11 @@
     size: "s-1vcpu-1gb"
     region: "nyc1"
     image: "ubuntu-22-04-x64"
-    ssh-keys: |
-      - "{{ lookup('file', '/home/keo/.ssh/id_rsa.pub') }}"
-    user-data: |
+    ssh_keys: |
+      # - "{{ lookup('file', '/home/keo/.ssh/id_rsa.pub') }}"
+      - "{{ ssh_pubkey['content'] | b64decode }}"
+      - "keo:{{ ssh_pubkey['content'] | b64decode }}"
+    user_data: |
       #!/bin/bash
       apt update
       apt install nginx -y

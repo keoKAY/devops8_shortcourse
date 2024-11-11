@@ -22,3 +22,7 @@
   copy: 
     content: "{{ droplet }}"
     dest: "./droplet-info.json"
+- name: Create inventory from jinja file 
+  template: 
+    src: "../templates/inventory-template-do.j2"
+    dest: "./inventory-do.ini"

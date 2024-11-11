@@ -1,7 +1,10 @@
 - name: Show Debug Google Instance
   debug:
     msg: "This is working fine "
-
+- name: Slurp pub key from local machine
+  slurp:
+    src: "{{ ssh_pubkey_path }}"
+  register: ssh_pubkey
 - name: Ensure the package are installed
   pip:
     name:

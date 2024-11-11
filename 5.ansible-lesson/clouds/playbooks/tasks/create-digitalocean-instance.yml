@@ -1,3 +1,7 @@
+# - name: Slurp pub key from local machine
+#   slurp:
+#     src: "{{ ssh_pubkey_path }}"
+#   register: ssh_pubkey
 - name: Create new DigitalOcean droplet
   community.digitalocean.digital_ocean_droplet:
     state: present

@@ -18,3 +18,7 @@
 - name: Show the droplet info
   debug:
     var: droplet
+- name: Write droplet info into json file
+  copy: 
+    content: "{{ droplet }}"
+    dest: "./droplet-info.json"

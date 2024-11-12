@@ -1,0 +1,15 @@
+# Usage: Create machine beside master and setup ssh 
+---
+- name: Setup Workers 
+  hosts: 
+    - master01 
+  become: true 
+  gather_facts: true 
+  vars_files: 
+    - vars.yml
+  tasks: 
+    - name: Create workers 
+      import_tasks: ./tasks/create-workers-gcp.yml
+
+
+# ansible-playbook -i inventory.ini playbooks/third.yml

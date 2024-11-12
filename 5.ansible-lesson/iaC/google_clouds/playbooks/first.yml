@@ -1,0 +1,11 @@
+# Usage: create a single instance on google cloud
+---
+- name: Creating instance in Google 
+  hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars.yml
+  tasks: 
+    - import_tasks: ./tasks/create-google-instance.yml
+        
+# ansible-playbook -i inventory.ini playbooks/first.yml

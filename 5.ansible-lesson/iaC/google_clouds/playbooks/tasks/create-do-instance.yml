@@ -1,0 +1,35 @@
+- name: Create new DigitalOcean droplet
+  community.digitalocean.digital_ocean_droplet:
+    state: present
+    name: "my-droplet"
+    size: "s-1vcpu-1gb"
+    region: "nyc1"
+    image: "ubuntu-22-04-x64"
+    # ssh_keys: ["your-ssh-key-fingerprint"] # Replace with your SSH key fingerprint
+    wait_timeout: 500 # means 500 seconds
+    oauth_token: "your-do-api-token" # Replace with your DO API token
+    unique_name: yes
+    monitoring: yes
+    ssh_keys: |
+      - "{{ lookup('file', '/home/keo/.ssh/id_rsa.pub') }}"
+    user_data: |
+      #!/bin/bash
+      apt update
+      apt install nginx -y
+
+    vpc_uuid: "default" # Optional: Specify VPC UUID if needed
+    tags:
+      - "production"
+      - "web"
+  register: droplet
+- name: Show the droplet info
+  debug:
+    var: droplet
+- name: Write droplet info into json file
+  copy:
+    content: "{{ droplet }}"
+    dest: "./droplet-info.json"
+- name: Update the inventory from the j2 file
+  template:
+    src: "../templates/inventory-template.j2"
+    dest: "../inventory.ini"

@@ -1,0 +1,72 @@
+- name: Show message 
+  debug:
+    msg: "This is working fine "  
+  when: false # skip this task
+- name: Loop to show machines specs
+  debug: 
+    msg: |
+      Machine Name: {{ item.name }}
+      # Machine Type: {{ item.machine_type }}
+      # Zone: {{ item.zone }}
+  loop: "{{ machines_info }}"
+  when: false 
+  # when: 
+  #   - item.name == "master01" 
+- name: Slurp pub key from local machine
+  slurp:
+    src: "{{ ssh_pubkey_path }}"
+  register: ssh_pubkey
+  when: true 
+# - name: Ensure the package are installed
+#   pip:
+#     name:
+#       - requests
+#       - google-auth
+- name: Create GCP instance
+  google.cloud.gcp_compute_instance:
+    name: "{{ item.name }}"
+    machine_type: "{{ item.machine_type }}"
+    zone: "{{ item.zone }}"
+    project: "{{google_project_id}}"
+    auth_kind: "serviceaccount"
+    service_account_file: "{{ service_account_path }}"
+    state: present # absent -> delete instance 
+    metadata:
+      ssh-keys: "keo:{{ ssh_pubkey['content'] | b64decode }}"
+      # startup-script: |
+      #   #!/bin/bash 
+      #   sudo apt update 
+      #   sudo apt install nginx -y
+    disks:
+      - auto_delete: true
+        boot: true
+        initialize_params:
+          source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2004-lts"
+          disk_size_gb: "{{ item.disk_size }}"
+          disk_type: "{{ item.disk_type }}"
+    network_interfaces:
+      - network:
+          selfLink: "projects/{{google_project_id}}/global/networks/default"
+        access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+    tags:
+      items:
+        - http-server
+        - https-server
+  loop: "{{ machines_info }}"
+  register: gcp_instances
+  # when: false 
+  when: 
+    - item.name == "master01" 
+# Error in getting the first values  results 
+- name: Write gcp_instances into json file
+  copy:
+    content: "{{ gcp_instances }}"
+    dest: "./gcp_more_instances.json"
+  when: false
+- name: Create inventory from template 
+  template: 
+    src: ../templates/masters-inventory.j2
+    dest: ../inventory.ini
+  when: false  

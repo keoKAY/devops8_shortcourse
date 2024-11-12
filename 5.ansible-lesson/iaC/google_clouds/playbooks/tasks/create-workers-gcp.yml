@@ -1,0 +1,71 @@
+- name: Check if publick key exist 
+  stat:
+    path: "{{ ssh_pubkey_path }}"
+  register: ssh_pubkey_stat
+- name: Generate ssh key pair there is no pub key 
+  shell: |
+    ssh-keygen -t rsa -b 4096 -f /home/keo/.ssh/id_rsa -N ''
+  when: ssh_pubkey_stat.stat.exists == False
+- name: Slurp pub key from local machine 
+  slurp: 
+    src: "{{ ssh_pubkey_path }}"
+  register: ssh_pubkey
+- name: Perform apt update 
+  apt: 
+    update_cache: yes
+- name: Install pip installer first 
+  apt: 
+    name: python3-pip
+    state: present
+- name: Ensure that the package are installed 
+  pip: 
+    name: 
+      - requests
+      - google-auth
+  when: true
+- name: Copy Service Account file to tmp 
+  copy: 
+    src: "{{ service_account_path }}"
+    dest: "/tmp/serviceaccount.json"
+- name: Create GCP workers instances
+  google.cloud.gcp_compute_instance:
+    name: "{{ item.name }}"
+    machine_type: "{{ item.machine_type }}"
+    zone: "{{ item.zone }}"
+    project: "{{google_project_id}}"
+    auth_kind: "serviceaccount"
+    service_account_file: "/tmp/serviceaccount.json"
+    state: present # absent -> delete instance 
+    metadata:
+      ssh-keys: "keo:{{ ssh_pubkey['content'] | b64decode }}"
+      # startup-script: |
+      #   #!/bin/bash 
+      #   sudo apt update 
+      #   sudo apt install nginx -y
+    disks:
+      - auto_delete: true
+        boot: true
+        initialize_params:
+          source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2004-lts"
+          disk_size_gb: "{{ item.disk_size }}"
+          disk_type: "{{ item.disk_type }}"
+    network_interfaces:
+      - network:
+          selfLink: "projects/{{google_project_id}}/global/networks/default"
+        access_configs:
+          - name: External NAT
+            type: ONE_TO_ONE_NAT
+    tags:
+      items:
+        - http-server
+        - https-server
+  loop: "{{ machines_info }}"
+  register: gcp_workers_instances
+  # when: false 
+  when: 
+    - item.name != "master01" 
+# Gerneate inventory file from this 
+- name: Write gcp_workers_instances into json file
+  copy:
+    content: "{{ gcp_workers_instances }}"
+    dest: "./gcp_workers_instances.json"

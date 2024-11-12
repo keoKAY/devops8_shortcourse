@@ -1,0 +1,12 @@
+# Usage: Create machine from vars file 
+---
+- name: Setup infrastructure 
+  hosts: localhost 
+  gather_facts: false
+  vars_files: 
+    - vars.yml  
+  tasks:
+    - name: Create a master01 
+      import_tasks: ./tasks/create-more-gcp.yml
+
+# ansible-playbook playbooks/second.yml

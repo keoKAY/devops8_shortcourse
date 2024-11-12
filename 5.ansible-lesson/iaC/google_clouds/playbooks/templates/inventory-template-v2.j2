@@ -1,0 +1,8 @@
+[local]
+localhost ansible_connection=local
+
+
+[all:children]
+{% for instance in gcp_instances.results %}
+{{ instance.name }} ansible_host={{ instance.networkInterfaces[0].accessConfigs[0].natIP }}
+{% endfor %}

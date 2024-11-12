@@ -1,0 +1,22 @@
+infra option:
+    #!/bin/bash
+    case {{option}} in
+    "create")
+        echo "create a new infrastruture"
+        echo "Creating master01 ...." 
+        ansible-playbook -i inventory.ini \
+            playbooks/second.yml 
+        
+        echo "Creating workers ...."
+        ansible-playbook -i inventory.ini \
+            playbooks/third.yml
+        ;;
+    "destroy")
+        echo "destroy the infrastruture"
+        ansible-playbook -i inventory.ini \
+            playbooks/destroy.yml
+        ;;
+    *)
+        echo "invalid option"
+        ;;
+    esac

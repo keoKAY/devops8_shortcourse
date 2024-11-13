@@ -39,6 +39,6 @@
         msg: "{{droplet}}"
 
 
-# ansible-playbook -i inventory.ini playbooks/infra-setup.yaml 
+# ansible-playbook -i inventory.ini playbooks/create-machine.yaml 
       
       

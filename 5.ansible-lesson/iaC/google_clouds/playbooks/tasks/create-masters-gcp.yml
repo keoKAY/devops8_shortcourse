@@ -33,10 +33,7 @@
     state: present # absent -> delete instance 
     metadata:
       ssh-keys: "keo:{{ ssh_pubkey['content'] | b64decode }}"
-      # startup-script: |
-      #   #!/bin/bash 
-      #   sudo apt update 
-      #   sudo apt install nginx -y
+
     disks:
       - auto_delete: true
         boot: true
@@ -64,9 +61,9 @@
   copy:
     content: "{{ gcp_instances }}"
     dest: "./gcp_more_instances.json"
-  when: false
+  when: true
 - name: Create inventory from template 
   template: 
     src: ../templates/masters-inventory.j2
     dest: ../inventory.ini
-  when: false  
+  when: true  

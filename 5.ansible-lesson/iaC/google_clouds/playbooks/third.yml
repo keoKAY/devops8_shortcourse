@@ -1,4 +1,4 @@
-# Usage: Create machine beside master and setup ssh 
+# Usage: Create only workers machines 
 ---
 - name: Setup Workers 
   hosts: 

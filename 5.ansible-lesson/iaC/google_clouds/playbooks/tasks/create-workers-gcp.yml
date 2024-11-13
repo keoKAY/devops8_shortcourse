@@ -5,6 +5,7 @@
 - name: Generate ssh key pair there is no pub key 
   shell: |
     ssh-keygen -t rsa -b 4096 -f /home/keo/.ssh/id_rsa -N ''
+  become_user: keo
   when: ssh_pubkey_stat.stat.exists == False
 - name: Slurp pub key from local machine 
   slurp: 
@@ -38,10 +39,7 @@
     state: present # absent -> delete instance 
     metadata:
       ssh-keys: "keo:{{ ssh_pubkey['content'] | b64decode }}"
-      # startup-script: |
-      #   #!/bin/bash 
-      #   sudo apt update 
-      #   sudo apt install nginx -y
+
     disks:
       - auto_delete: true
         boot: true
@@ -63,9 +61,23 @@
   register: gcp_workers_instances
   # when: false 
   when: 
-    - item.name != "master01" 
-# Gerneate inventory file from this 
-- name: Write gcp_workers_instances into json file
-  copy:
-    content: "{{ gcp_workers_instances }}"
-    dest: "./gcp_workers_instances.json"
+    - item.name != "master01"
+- name: Delete serviceaccount json file 
+  file: 
+    path: "/tmp/serviceaccount.json"
+    state: absent
+  # become: true 
+- name: Register the existing inventory file 
+  local_action:
+    module: slurp 
+    src: "{{ playbook_dir }}/../inventory.ini"
+  register: existing_inventory
+  become: false 
+- name: Update our inventory 
+  local_action: 
+    module: template 
+    src: "{{ playbook_dir }}/templates/workers-inventory.j2"
+    dest: "{{ playbook_dir }}/../inventory.ini"
+  become: false
+  vars:
+    existing_content: "{{ existing_inventory['content'] | b64decode }}"

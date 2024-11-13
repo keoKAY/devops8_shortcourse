@@ -1,4 +1,4 @@
-# Usage: Create machine from vars file 
+# Usage: Create only master machine   
 ---
 - name: Setup infrastructure 
   hosts: localhost 
@@ -7,6 +7,6 @@
     - vars.yml  
   tasks:
     - name: Create a master01 
-      import_tasks: ./tasks/create-more-gcp.yml
+      import_tasks: ./tasks/create-masters-gcp.yml
 
 # ansible-playbook playbooks/second.yml

@@ -16,3 +16,14 @@ sudo pip install -r requirements.txt
 # inside the kubespray directory 
 ansible-playbook -b -v -i inventory/prod/inventory.ini cluster.yml
 ```
+
+* After successfully running the playbook, you can access the kubernetes cluster using the kubectl command. 
+```bash
+sudo kubectl get nodes
+```
+* if you want to get rid of the sudo before the kubectl command you can run below commmands 
+```bash 
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```

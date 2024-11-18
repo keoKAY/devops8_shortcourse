@@ -1,15 +1,15 @@
-auth_token: ""
+auth_token: "your-oauth-token"
 
 
 machines:
   - name: "worker01"
-    size: "s-1vcpu-1gb"
+    size: "s-1vcpu-1gb" # specs ( 8G)
+    region: "nyc1" # zone: singapore 
+    image: "ubuntu-20-04-x64" # ubuntu-22-04-x64
+  - name: "worker02" 
+    size: "s-1vcpu-2gb"
     region: "nyc1"
     image: "ubuntu-20-04-x64"
-  # - name: "worker02" 
-  #   size: "s-1vcpu-2gb"
-  #   region: "nyc1"
-  #   image: "ubuntu-20-04-x64"
   # - name: "worker03"
   #   size: "s-1vcpu-2gb"
   #   region: "nyc1"

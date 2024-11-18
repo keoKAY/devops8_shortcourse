@@ -1,3 +1,4 @@
+# we should have a task in order to wait for the ssh connection of master01 to be ready before running the other tasks  ( use module called wait_for )
 - name: Check if publick key exist 
   stat:
     path: "{{ ssh_pubkey_path }}"
@@ -44,7 +45,7 @@
       - auto_delete: true
         boot: true
         initialize_params:
-          source_image: "projects/ubuntu-os-cloud/global/images/family/ubuntu-2004-lts"
+          source_image: "{{ item.image }}"
           disk_size_gb: "{{ item.disk_size }}"
           disk_type: "{{ item.disk_type }}"
     network_interfaces:

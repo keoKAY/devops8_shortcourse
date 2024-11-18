@@ -1,4 +1,4 @@
-auth_token: "your_auth_token"
+auth_token: "dop_v1_4c6e01942c44ead4cd17d1df32aa521dd593a0a157ef98cbff485d8945fed96f"
 
 
 machines:
@@ -6,10 +6,10 @@ machines:
     size: "s-1vcpu-1gb"
     region: "nyc1"
     image: "ubuntu-20-04-x64"
-  - name: "worker02" 
-    size: "s-1vcpu-2gb"
-    region: "nyc1"
-    image: "ubuntu-20-04-x64"
+  # - name: "worker02" 
+  #   size: "s-1vcpu-2gb"
+  #   region: "nyc1"
+  #   image: "ubuntu-20-04-x64"
   # - name: "worker03"
   #   size: "s-1vcpu-2gb"
   #   region: "nyc1"

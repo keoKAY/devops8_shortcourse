@@ -12,33 +12,58 @@
     - name: "Create SSH keys when it does not exist "
       command: ssh-keygen -t rsa -b 2048 -f ~/.ssh/id_rsa -N ""
       when: not ssh_key.stat.exists
-
     - name: "Loading the public key"
       command: cat ~/.ssh/id_rsa.pub
       register: master_public_key
+    - name: Show the public key
+      debug: 
+        msg: "{{ master_public_key.stdout }}"
     - name: "Create Droplet"
-      digital_ocean_droplet: 
+      community.digitalocean.digital_ocean_droplet:
         state: present
-        name: "{{item.name}}"
-        oauth_token: "{{authtoken}}" # should define the value  for the auth_token 
+        name: "{{ item.name }}"
+        api_token: "{{ auth_token }}"    # Note: changed oauth_token to api_token
         size: "{{ item.size }}"
         region: "{{ item.region }}"
         image: "{{ item.image }}"
         wait_timeout: 500
         user_data: |
-          users: 
+          #cloud-config
+          users:
             - name: james
               shell: /bin/bash
-              ssh-authorized-keys:
+              ssh_authorized_keys:
                 - "{{ master_public_key.stdout }}"
-
       loop: "{{ machines }}"
-      register: droplet
-    - name: "Show Droplet Info"
-      debug: 
-        msg: "{{droplet}}"
+      register: droplets
+    # - name: "Create Droplet"
+    #   # community.digitalocean.digital_ocean:
+    #   digital_ocean_droplet: 
+    #     state: present
+    #     name: "{{item.name}}"
+    #     oauth_token: "{{auth_token}}"    
+    #     # api_token: "{{auth_token}}" 
+    #     size: "{{ item.size }}"
+    #     region: "{{ item.region }}"
+    #     image: "{{ item.image }}"
+    #     wait_timeout: 500
+    #     user_data: |
+    #       users: 
+    #         - name: james
+    #           shell: /bin/bash
+    #           ssh-authorized-keys:
+    #             - "{{ master_public_key.stdout }}"
 
+    #   loop: "{{ machines }}"
+    #   register: droplets
+    # - name: "Show Droplet Info"
+    #   debug: 
+    #     msg: "{{droplets}}"
+    - name: Write the droplets into json file 
+      copy: 
+        content: "{{ droplets }}"
+        dest: "droplets.json"
 
-# ansible-playbook -i inventory.ini playbooks/create-machine.yaml 
+# ansible-playbook -i inventory.ini playbooks/create-machine.yml 
       
       

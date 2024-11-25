@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: nginx-dpl
+  labels: 
+    app: nginx-dpl 
+spec: 
+  replicas: 5
+  strategy: 
+    # type: Recreate 
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 50% # specified the pods to be added on top of desired state 
+      maxUnavailable: 50%
+  selector: 
+    matchLabels: 
+      app: nginx-dpl 
+  # define the pods spec here 
+  template: 
+    metadata: 
+      labels: 
+        app: nginx-dpl 
+    spec: 
+      containers: 
+        - name: nginx-cont 
+          image: nginx:latest
+          ports: 
+            - containerPort: 80
+# kubectl --dry-run=server -f deployment-nginx.yaml
+
+# Explaination ! 
+
+# Recreate -> will experience moment of downtime ( Development )
+#  Current deployment : reactjs-v1 
+# update deploymetn : reactjs-v2 
+
+# RollingUpdates  ( production )
+# Current deployment : reactjs-v1 -> reactjs-v2 

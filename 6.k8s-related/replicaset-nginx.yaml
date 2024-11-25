@@ -1,0 +1,27 @@
+apiVersion: apps/v1 
+kind: ReplicaSet
+metadata: 
+  name: nginx-rs 
+  labels: 
+    app: nginx-rs 
+    # tier: frontend
+spec: 
+  replicas: 3 # ensure that there are three pods replicated 
+  selector: 
+    matchLabels: 
+      app: nginx-rs 
+  # define pod defintions 
+  template:
+    metadata: 
+      labels: 
+        app: nginx-rs 
+    spec: 
+      containers: 
+        - name: nginx-cont
+          image: nginx:latest
+          ports: 
+            - containerPort: 80
+# kubectl apply --dry-run=server -f replicaset-nginx.yaml
+# kubectl apply --dry-run=server -f replicaset-nginx.yaml
+# kubectl apply -f replicaset-nginx.yaml 
+# to see if it works , you can try to delete a pod 

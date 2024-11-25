@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: web-app-green
+  labels: 
+    app: web-app-green
+spec: 
+  replicas: 4
+  selector: 
+    matchLabels: 
+      app: web-app
+  template: 
+    metadata: 
+      labels: 
+        app: web-app
+    spec: 
+    # version two of our image
+      containers: 
+        - name: nginx-cont 
+          image: 69966/reactjs-jenkins-nginx:v0.0.11
+          ports: 
+            - containerPort: 80
+ 

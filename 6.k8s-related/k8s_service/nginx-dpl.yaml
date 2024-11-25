@@ -1,0 +1,24 @@
+# 1. Create nginx deployment 
+--- 
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: nginx-app
+spec: 
+  replicas: 3 
+  strategy: 
+    type: Recreate
+  selector: 
+    matchLabels: 
+      app: nginx-app 
+  template: 
+    metadata: 
+      labels: 
+        app: nginx-app 
+    spec: 
+      containers: 
+        - name: nginx-cont 
+          image: nginx:latest
+
+# to apply everything inside the current directory you can type 
+# kubectl apply -f . 

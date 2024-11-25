@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: web-app-blue
+  labels: 
+    app: web-app-blue
+spec: 
+  replicas: 0
+  selector: 
+    matchLabels: 
+      app: web-app
+  template: 
+    metadata: 
+      labels: 
+        app: web-app
+    spec: 
+    # versino one of our image 
+      containers: 
+        - name: nginx-cont 
+          image: nginx:latest
+          ports: 
+            - containerPort: 80
+ 

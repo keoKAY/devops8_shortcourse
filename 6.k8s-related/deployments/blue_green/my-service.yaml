@@ -1,0 +1,19 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: my-service
+spec: 
+  type: ClusterIP  #
+  selector: 
+    app: web-app
+    replicas: green
+    #  reactjs -> replicas : green 
+  ports: 
+  - name: web-port
+    port: 3000
+    targetPort: 80 # reactjs: 80 , nginx:80
+
+# cd blue_green 
+# kubectl apply -f filename.yaml
+# kubectl apply -f . 
+# kubectl delete -f . # every files inside current dir

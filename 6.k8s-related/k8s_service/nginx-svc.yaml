@@ -1,0 +1,32 @@
+# Define everything inside a single file 
+# Define everything separately 
+
+
+
+
+
+
+# create service in order to expose the nginx app 
+---
+apiVersion: v1
+kind: Service 
+metadata: 
+  name: nginx-svc 
+spec: 
+  # type: ClusterIP 
+  type: NodePort
+  selector: 
+    app: nginx-app
+  ports: 
+    - name: nginx-port 
+      port: 80 
+      targetPort: 80 
+      nodePort: 30000
+
+# cd k8s_service
+# kubectl apply -f nginx-svc.yaml
+
+# ansible-playbook -b -v -i inventory.ini reset.yml 
+# addons.yaml -> nginx-ingress: true 
+# ansible-playbook -b -v -i inventory.ini cluster.yml
+# setup internal ip in the ingress controller class  

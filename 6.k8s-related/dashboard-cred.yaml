@@ -1,0 +1,24 @@
+# Create service account for admin user 
+--- 
+apiVersion: v1 
+kind: ServiceAccount 
+metadata: 
+  name: admin-user
+  namespace: kubernetes-dashboard   
+# Create cluster role binding for this service acc 
+--- 
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding 
+metadata: 
+  name: admin-user 
+roleRef: 
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects: 
+- kind:  ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+  
+# in order to apply configuration to the k8s 
+# kubectl apply -f dashboard-cred.yaml

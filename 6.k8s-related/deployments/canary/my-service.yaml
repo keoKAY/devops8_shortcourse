@@ -1,0 +1,12 @@
+apiVersion: v1 
+kind: Service 
+metadata: 
+  name: my-service
+spec: 
+  type: ClusterIP  #
+  selector: 
+    app: web-app
+  ports: 
+  - name: web-port
+    port: 3000
+    targetPort: 80 # reactjs: 80 , nginx:80

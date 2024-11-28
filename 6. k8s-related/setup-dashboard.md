@@ -24,6 +24,8 @@ kubectl create token admin-user \
 
 # to get the better information of node
 kubectl get node -o wide 
+
+34.143.222.130:30149
 ```
 
 

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name: spring-fileupload-dpl 
+spec: 
+  replicas: 4 
+  selector: 
+    matchLabels: 
+      app: spring-fileupload-dpl 
+  template: 
+    metadata: 
+      labels: 
+        app: spring-fileupload-dpl
+    spec: 
+      containers: 
+        - name: spring-cont 
+          image: "69966/springgradleimg:1.1.1"
+          ports: 
+            - containerPort: 8080
+          volumeMounts: 
+            - name: images-nfs
+              mountPath: /app/src/main/resources/images
+      volumes: 
+        - name: images-nfs
+          nfs: 
+            server: 10.148.0.16
+            path: /srv/nfs_share
+
+# kubectl logs pod-name

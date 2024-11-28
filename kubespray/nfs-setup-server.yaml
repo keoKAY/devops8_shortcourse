@@ -37,4 +37,5 @@
         state: restarted
 
 # sudo systemctl status nfs-kernel-server
+# cd /srv/nfs_share 
 # ansible-playbook -b -v -i  inventory.ini nfs-setup-server.yaml

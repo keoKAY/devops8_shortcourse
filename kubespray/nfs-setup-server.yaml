@@ -36,4 +36,5 @@
         name: nfs-kernel-server
         state: restarted
 
+# sudo systemctl status nfs-kernel-server
 # ansible-playbook -b -v -i  inventory.ini nfs-setup-server.yaml

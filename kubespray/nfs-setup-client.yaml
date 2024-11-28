@@ -14,24 +14,29 @@
       file:
         path: /mnt/nfs_share
         state: directory
-    - name: Showing the Node 1 IP 
-      debug: 
-        msg: "{{ hostvars['node1'].ip }}"
+    # - name: Showing the Node 1 IP 
+    #   debug: 
+    #     msg: "{{ hostvars['node1'].ip }}"
+    #     msg: "{{ hostvars['node1'].ansible_host }}"
 # sudo mount -t nfs 192.168.1.10:/srv/nfs_share /mnt/nfs_share
 #  sudo mount 10.148.0.16:/srv/nfs_share /mnt/nfs_share
 #  sudo mount 34.143.222.130:/srv/nfs_share /mnt/nfs_share
     - name: Mount NFS share
       mount:
         path: /mnt/nfs_share
-        # src: "{{ hostvars['node1'].ansible_host }}:/srv/nfs_share"
-        src: "10.148.0.16:/srv/nfs_share"
+        src: "{{ hostvars['node1'].ip }}:/srv/nfs_share"
+        # src: "10.148.0.16:/srv/nfs_share"
         fstype: nfs
         opts: rw
         state: mounted
-      when: false 
+      when: true 
     - name: Persist NFS share in fstab
       lineinfile:
         path: /etc/fstab
-        line: "{{ hostvars['node1'].ansible_host }}:/srv/nfs_share /mnt/nfs_share nfs defaults 0 0"
+        line: "{{ hostvars['node1'].ip }}:/srv/nfs_share /mnt/nfs_share nfs defaults 0 0"
         state: present
-      when: false
+      when: true
+
+# must be inside the kubespray directory 
+# ansible-playbook -b -v -i inventory/prod/inventory.ini nfs-setup-client.yaml
+# ansible-playbook -b -v -i inventory/prod/inventory.ini nfs-setup-server.yaml

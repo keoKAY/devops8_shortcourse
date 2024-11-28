@@ -22,8 +22,13 @@ spec:
               mountPath: /app/src/main/resources/images
       volumes: 
         - name: images-nfs
+        # using the nfs client side 
           nfs: 
-            server: 10.148.0.16
-            path: /srv/nfs_share
+            server: 10.148.0.18
+            path: /mnt/nfs_share
+        # using the nfs on server side 
+          # nfs: 
+          #   server: 10.148.0.16
+          #   path: /srv/nfs_share
 
 # kubectl logs pod-name

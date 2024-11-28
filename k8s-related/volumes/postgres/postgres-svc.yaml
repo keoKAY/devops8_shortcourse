@@ -1,0 +1,38 @@
+apiVersion: v1 
+kind: Service
+metadata: 
+  name: postgres-svc
+spec: 
+  # type: ClusterIP 
+  clusterIP: None 
+  selector: 
+    app: postgres-dpl
+  ports: 
+    - name: postgres-port
+      port: 5432
+      targetPort: 5432
+
+# how to curl the service if no IP 
+# kubectl get svc postgres-svc -o yaml
+# kubectl get endpoints postgres-svc
+
+
+
+# syntax 
+# service-name.namespace.default.svc.prod  ( because we cutomized it )
+
+
+# pod-name.service-name.default.svc.cluster.local
+
+# ( if we edited the prod/k8s-cluster.yaml file )
+# postgres-svc.default.svc.prod
+
+
+# k8s-cluster.yml ( kubespray )
+# nginx-service.default.svc.cluster.local
+
+
+# curl nginx-configmap-dpl-759958c97b-446f8.
+
+# echo "helloworld" | base64
+# echo "encrypted" | base64 --decode 

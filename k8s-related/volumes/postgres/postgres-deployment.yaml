@@ -1,0 +1,45 @@
+# FQDNS 
+
+
+
+# Deployment vs StatefulSet 
+# Deployment used for stateless (nginx, reactjs, spring boot project .... )
+# StatefulSet used for stateful ( kafka , database ( postgres, mysql ... )
+
+---
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: postgres-dpl 
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: postgres-dpl 
+  template: 
+    metadata: 
+      labels: 
+        app: postgres-dpl 
+    spec: 
+      containers: 
+        - name: postgres-cont 
+          image: postgres:14 
+          env: 
+            - name: POSTGRES_USER
+              value: postgres # user name is : postgres
+            - name: POSTGRES_DB
+              valueFrom: 
+                configMapKeyRef: 
+                  name: postgres-configmap
+                  key: POSTGRES_DB  
+            - name: POSTGRES_PASSWORD
+              valueFrom: 
+                secretKeyRef: 
+                  name: postgres-secret
+                  key: MY_PASS
+
+          ports: 
+            - containerPort: 5432
+# postgres_user, postgres_password , postgres_db
+
+

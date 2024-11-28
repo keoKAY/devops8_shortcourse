@@ -1,0 +1,76 @@
+--- 
+# I will create configMap for nginx deployment here 
+apiVersion: v1 
+kind: ConfigMap
+metadata: 
+  name: nginx-index-configmap 
+  # index.html of nginx 
+  # store env ( env variables , POSTGRES_USER, POSTGRES_DB)
+data: 
+  index.html: |-
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>New Nginx</title>
+    </head>
+    <body>
+        <div class="container">
+            <h1>This is my very own Nginx </h1>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ullam velit at harum tempore, possimus unde, corrupti atque magnam voluptas provident delectus optio beatae officiis molestiae, nostrum illum. Harum, quisquam corporis!</p>
+        </div>
+    </body>
+    </html>
+
+---
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: nginx-configmap-dpl 
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: nginx-configmap-dpl 
+  template: 
+    metadata: 
+      labels: 
+        app: nginx-configmap-dpl 
+    spec: 
+      containers: 
+        - name: nginx-cont 
+          image: nginx:latest
+          ports: 
+            - containerPort: 80 
+          volumeMounts: 
+            - name: config-vol
+              mountPath: /usr/share/nginx/html
+      volumes: 
+        - name:  config-vol
+          configMap: 
+            name: nginx-index-configmap 
+            items: 
+              - key: index.html
+                path: index.html
+---
+# service for the deployment 
+apiVersion: v1
+kind: Service 
+metadata: 
+  name: nginx-configmap-svc
+spec: 
+  type: ClusterIP
+  selector: 
+    app: nginx-configmap-dpl 
+  ports: 
+    - name: nginx-configmap-port
+      port: 80 
+      targetPort: 80 
+
+ 
+
+# kubectl apply -f nginx-hostPath.yaml
+# kubectl get pod -o wide 
+# exec to the pod 
+# kubectl exec -it pod-name -- bash

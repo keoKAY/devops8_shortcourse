@@ -1,0 +1,25 @@
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+ name: my-nginx-autoscaler
+spec:
+# Target that we will scale ( deployment = nginx-dpl )
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: nginx-dpl
+# scale up and scale down 
+ minReplicas: 2
+ maxReplicas: 10
+#  conditions : when do we scale 
+ metrics:
+#  - type: Memory 
+#    name: .....
+ - type: Resource
+   resource:
+     name: cpu
+     target:
+       type: Utilization
+       averageUtilization: 1 # 1% 
+      #  averageUtilization: 50 # 50% CPU power
+# Custom metrics 

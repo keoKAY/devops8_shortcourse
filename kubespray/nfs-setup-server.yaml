@@ -1,0 +1,39 @@
+# Setup nfs server on the master
+---
+- name: Set up NFS Server on master01
+  hosts: node1
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install NFS server packages
+      apt:
+        name: nfs-kernel-server
+        state: present
+
+    - name: Create export directory
+      file:
+        path: /srv/nfs_share
+        state: directory
+        owner: nobody
+        group: nogroup
+        mode: '0777'
+
+    - name: Configure NFS exports
+      copy:
+        content: "/srv/nfs_share *(rw,sync,no_subtree_check,no_root_squash)\n"
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Apply NFS export configuration
+      command: exportfs -ra
+
+    - name: Restart NFS server to apply changes
+      service:
+        name: nfs-kernel-server
+        state: restarted
+
+# ansible-playbook -b -v -i  inventory.ini nfs-setup-server.yaml

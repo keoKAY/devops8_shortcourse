@@ -1,0 +1,46 @@
+---
+# deployment 
+# 1. nginx deployment 
+# 2. reactjs deployment 
+# 3. service nginx 
+# 4. service reactjs 
+ 
+ # k8s-nginx.devnerd.store/nginx -> webpage nginx 
+ # k8s-nginx.deverd.store/reactjs -> webpage reactjs 
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata: 
+  name: path-based-ingress 
+  annotations: 
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/configuration-snippet: |
+    #   try_files $uri /index.html;
+    # nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+spec: 
+  ingressClassName: "nginx" 
+  tls: 
+     - hosts: 
+        - "k8s-nginx.devnerd.store"
+       secretName: path-based-tls
+  rules: 
+    - host: k8s-nginx.devnerd.store
+      http: 
+        paths: 
+          - path: /
+            pathType: Prefix
+            backend: 
+              service: 
+                name: reactjs-service
+                port: 
+                  number: 3000
+          - path: /nginx
+            pathType: Prefix 
+            backend: 
+              service: 
+                name: nginx-service 
+                port: 
+                  number: 80 

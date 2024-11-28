@@ -1,0 +1,37 @@
+- name: Configure NFS Clients on worker nodes
+  hosts: node2,node3
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install NFS client packages
+      apt:
+        name: nfs-common
+        state: present
+
+    - name: Create mount point
+      file:
+        path: /mnt/nfs_share
+        state: directory
+    - name: Showing the Node 1 IP 
+      debug: 
+        msg: "{{ hostvars['node1'].ip }}"
+# sudo mount -t nfs 192.168.1.10:/srv/nfs_share /mnt/nfs_share
+#  sudo mount 10.148.0.16:/srv/nfs_share /mnt/nfs_share
+#  sudo mount 34.143.222.130:/srv/nfs_share /mnt/nfs_share
+    - name: Mount NFS share
+      mount:
+        path: /mnt/nfs_share
+        # src: "{{ hostvars['node1'].ansible_host }}:/srv/nfs_share"
+        src: "10.148.0.16:/srv/nfs_share"
+        fstype: nfs
+        opts: rw
+        state: mounted
+      when: false 
+    - name: Persist NFS share in fstab
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ hostvars['node1'].ansible_host }}:/srv/nfs_share /mnt/nfs_share nfs defaults 0 0"
+        state: present
+      when: false

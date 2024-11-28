@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment 
+metadata: 
+  name: nginx-hostpath-dpl 
+spec: 
+  replicas: 1
+  selector: 
+    matchLabels: 
+      app: nginx-hostpath-dpl 
+  template: 
+    metadata: 
+      labels: 
+        app: nginx-hostpath-dpl 
+    spec: 
+      containers: 
+        - name: nginx-cont 
+          image: nginx:latest
+          ports: 
+            - containerPort: 80 
+          volumeMounts: 
+            - name: my-vol 
+              mountPath: /data
+      volumes: 
+        - name: my-vol 
+          hostPath: 
+            path: /opt/data
+
+# kubectl apply -f nginx-hostPath.yaml
+# kubectl get pod -o wide 
+# exec to the pod 
+# kubectl exec -it pod-name -- bash

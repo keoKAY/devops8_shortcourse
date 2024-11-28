@@ -1,0 +1,16 @@
+# kubectl get sc 
+# kubectl get storageClass
+--- 
+apiVersion: v1
+kind: PersistentVolume 
+metadata: 
+  name: spring-pv 
+spec: 
+  capacity: 
+    storage: 10Gi
+  accessModes: 
+    - ReadWriteMany 
+  storageClassName: nfs-sharing
+  nfs: 
+    server: 10.148.0.16
+    path: /srv/nfs_share

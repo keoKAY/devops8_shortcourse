@@ -3,8 +3,10 @@
 
 # Change the default service of the dashboard to the NodePort
 kubectl edit service/kubernetes-dashboard -n kube-system
-kubectl get service/kubernetes-dashboard -n kube-system
-kubectl edit svc/kubernetes-dashboard -n kube-system
+kubectl get svc/kubernetes-dashboard -n kube-system
+# to edit the default service of the k8s dashboard 
+kubectl edit svc/kubernetes-dashboard \
+    -n kube-system
 # -n = namespace
 
 # to get all the namespace in the k8s cluster 

@@ -1,1 +1,31 @@
 # Adding domain name and https for the kubernetes dashboard 
+# Note that our dashboard service is in "kube-system" namespace 
+
+# 1. Before we changed it to NodePort, now we will have to change it back to ClusterIP 
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata: 
+  name: dashboard-ingress
+  namespace: kube-system
+  annotations: 
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+spec: 
+  ingressClassName: "nginx"
+  tls: 
+    - hosts: 
+        - "dashboard-new.devnerd.store"
+      secretName: kube-dashboard-tls
+  rules: 
+    - host: dashboard-new.devnerd.store
+      http: 
+        paths: 
+          - path: / 
+            pathType: Prefix
+            backend: 
+              service: 
+                name: kubernetes-dashboard
+                port: 
+                  number: 443 
+

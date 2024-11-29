@@ -20,7 +20,7 @@ kubectl apply -f your-config-file.yaml
 # generate the token by running this command 
 kubectl create token admin-user \
     -n kubernetes-dashboard \
-    --duration=24h
+    --duration=240h
 
 # to get the better information of node
 kubectl get node -o wide 
@@ -28,7 +28,9 @@ kubectl get node -o wide
 34.143.222.130:30149
 ```
 * ## Adding domain name and https for the k8s dashboard 
-1. must have the clusterisser setup 
+1. Ensure that you have the clusterisser setup 
+2. Edit kubernete-dashboard (service ) , change from "NotePort" to "ClusterIP" 
+    2.1: ports sessions ( remove nodePort)
 
 
 ## To reset the kubespray 

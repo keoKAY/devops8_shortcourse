@@ -27,7 +27,8 @@ kubectl get node -o wide
 
 34.143.222.130:30149
 ```
-
+* ## Adding domain name and https for the k8s dashboard 
+1. must have the clusterisser setup 
 
 
 ## To reset the kubespray 

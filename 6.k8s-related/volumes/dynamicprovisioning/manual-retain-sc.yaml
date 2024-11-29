@@ -8,3 +8,4 @@ volumeBindingMode: Immediate
 allowVolumeExpansion: true 
 
 # kubectl apply -f manual-retain-sc.yaml
+# create pv , create pvc ( link thru pv by the storageClassName defined in pv ) 

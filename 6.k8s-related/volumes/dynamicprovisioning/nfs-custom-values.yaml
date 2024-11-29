@@ -1,0 +1,21 @@
+# nfs-custom-values.yaml
+storageClasses:
+- name: nfs-client-retain
+  # defaultClass: false
+  volumeBindingMode: true 
+  reclaimPolicy: Retain
+  provisionerName: k8s-sigs.io/nfs-subdir-external-provisioner
+  allowVolumeExpansion: true 
+  # archiveOnDelete: false
+  # Keep the original storageClass as well
+- name: nfs-client
+  # defaultClass: false
+  reclaimPolicy: Delete
+  volumeBindingMode: Immediate
+  allowVolumeExpansion: true 
+  provisionerName: k8s-sigs.io/nfs-subdir-external-provisioner
+  # archiveOnDelete: false
+
+nfs:
+  server: 10.148.0.16
+  path: /srv/nfs_share

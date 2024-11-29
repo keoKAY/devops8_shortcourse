@@ -10,7 +10,8 @@ spec:
     requests: 
       storage: 5Gi
   # storageClassName: nfs-sharing
-  storageClassName: nfs-client
+  # storageClassName: nfs-client
+  storageClassName: nfs-client-retain # will use the retain claim policy 
 
 
 # kubectl apply -f spring-pvc.yaml

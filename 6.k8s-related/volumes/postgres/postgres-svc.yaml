@@ -6,7 +6,8 @@ spec:
   # type: ClusterIP 
   clusterIP: None 
   selector: 
-    app: postgres-dpl
+    # app: postgres-dpl
+    app: postgres-app # ( because this is the stateful set that we declared! )
   ports: 
     - name: postgres-port
       port: 5432

@@ -1,11 +1,11 @@
 
 ---
 apiVersion: apps/v1
-kind: StatefulSet 
+kind: StatefulSet  # Deployment
 metadata: 
   name: postgres-app 
 spec: 
-  replicas: 1
+  replicas: 4
   selector: 
     matchLabels: 
       app: postgres-app 
@@ -30,6 +30,7 @@ spec:
                 secretKeyRef: 
                   name: postgres-secret
                   key: MY_PASS
+        # specified where to mount the data from the pod
           volumeMounts: 
             - name: postgres-vol
               mountPath: /var/lib/postgresql/data

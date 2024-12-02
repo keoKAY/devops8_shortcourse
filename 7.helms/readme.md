@@ -42,6 +42,21 @@ helm uninstall nginx-release nginx-chart
 
 # grep "release-name-nginx-chart" 
 kubectl get all -A | grep "nginx-release-nginx-chart"
+
+# after we have updated the version of the image , you can upgrade it using the command : 
+helm upgrade nginx-release nginx-chart 
+# upgrade with new version 
+helm  upgrade nginx-release nginx-chart --version 0.1.1
+helm upgrade nginx-release nginx-chart --install # install ( if exist upgrade)
+
+helm rollback nginx-release 1 
+helm history nginx-release
+# we have three revision ( 1 , 2 , 3 )
+
+
 # Access through the FQDNS 
+# CoreDNS
+curl nginx-release-nginx-chart.default.svc.prod
+nslookup nginx-release-nginx-chart.default.svc.prod
 # Access clusterIP of the service that we have deployed 
 ```

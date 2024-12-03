@@ -1,19 +1,28 @@
+# go templates
+{{- if gt (int $.Values.replicas) 3 }}
 apiVersion: apps/v1
 kind: Deployment 
 metadata: 
-  name: nginx-deployment
+  name: {{ .Values.appName.app }}-dpl
 spec: 
-  replicas: 4 
+  replicas: {{ .Values.replicas }}
   selector: 
-    matchLabels: 
-      app: nginx-deployment 
+    matchLabels:     
+      # app: nginx-dpl
+      {{- toYaml .Values.appName | nindent 6 }} 
   template: 
     metatdata: 
       labels: 
-        app: nginx-deployment 
+        # app: nginx-deployment 
+        {{- toYaml .Values.appName | nindent 6 }} 
     spec: 
       containers: 
-        - name: nginx-cont
-          image: nginx
+        {{- with .Values.container }}
+        - name: {{ .name }}
+          image: {{ .image }}
           ports: 
-          - containerPort: 80 
+          - containerPort: {{ .port }}
+        {{- end }}
+{{- else if le (int $.Values.replicas) 3  }}
+  {{- fail "Replicas must be greater than 3 ! " }}
+{{- end }}

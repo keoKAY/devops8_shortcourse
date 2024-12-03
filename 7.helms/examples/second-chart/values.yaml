@@ -7,4 +7,12 @@ container:
   name: nginx-cont 
   image: nginx:latest
   port: 8080 
+  env:
+   - name: POSTGRES_PASSWORD
+     value: "123"
+   - name: POSTGRES_DB
+     value: "test"
+   - name: POSTGRES_USER
+     value: "dara"
       
+# define the env for this image here 

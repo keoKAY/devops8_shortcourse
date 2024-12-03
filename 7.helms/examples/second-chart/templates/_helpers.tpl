@@ -22,6 +22,11 @@ spec:
         {{- with .Values.container }}
         - name: {{ .name }}
           image: {{ .image }}
+          env: 
+            {{- range .env }}
+            - name: {{ .name }}
+              value: {{ .value }}
+            {{- end }}
           ports: 
           - containerPort: {{ .port }}
         {{- end }}

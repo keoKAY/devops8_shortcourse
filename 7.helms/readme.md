@@ -63,3 +63,26 @@ nslookup nginx-release-nginx-chart.default.svc.prod
 kubectl get configmap coredns -n kube-system -o yaml
 
 ```
+
+* When working with multiplke environment ( using multiple values file )
+
+```bash 
+
+helm install release-name chart-name 
+
+# we are inside the chart directory 
+helm upgrade nginx-release .  \
+    --install \
+    --values prod-values.yaml
+# if we run the command outside the directoryt of the chart 
+helm upgrade nginx-release nginx-chart \
+    --values nginx-chart/prod-values.yaml
+
+# if prod-values.yaml is outside the directory of the chart 
+helm upgrade nginx-release nginx-chart \
+    ---values prod-values.yaml 
+
+
+
+# how to copy the existing values.yaml of the chart that we want to deploy ! 
+```

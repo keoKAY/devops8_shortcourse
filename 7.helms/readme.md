@@ -57,6 +57,9 @@ helm history nginx-release
 # Access through the FQDNS 
 # CoreDNS
 curl nginx-release-nginx-chart.default.svc.prod
+curl nginx-release-nginx-chart.default.svc.cluster.local
 nslookup nginx-release-nginx-chart.default.svc.prod
 # Access clusterIP of the service that we have deployed 
+kubectl get configmap coredns -n kube-system -o yaml
+
 ```

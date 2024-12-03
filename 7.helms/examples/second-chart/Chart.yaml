@@ -1,0 +1,6 @@
+apiVersion: v2
+name: second-chart
+description: A Helm chart for Kubernetes
+type: application # application, library 
+version: 0.1.0
+appVersion: "1.16.0"

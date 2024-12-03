@@ -3,7 +3,7 @@
 apiVersion: apps/v1
 kind: Deployment 
 metadata: 
-  name: {{ .Values.appName.app }}-dpl
+  name: {{ .Values.appName.app }}
 spec: 
   replicas: {{ .Values.replicas }}
   selector: 
@@ -11,10 +11,10 @@ spec:
       # app: nginx-dpl
       {{- toYaml .Values.appName | nindent 6 }} 
   template: 
-    metatdata: 
+    metadata: 
       labels: 
         # app: nginx-deployment 
-        {{- toYaml .Values.appName | nindent 6 }} 
+        {{- toYaml .Values.appName | nindent 7 }} 
     spec: 
       containers: 
         {{- with .Values.container }}

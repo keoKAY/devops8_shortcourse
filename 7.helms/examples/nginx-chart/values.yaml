@@ -5,15 +5,17 @@
 replicaCount: 1
 
 image:
-  repository: "nginx"
+  # repository: "nginx"
+  repository: "registry-new.devnerd.store/nexus-nginx"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   # tag: "v0.0.11"
-  tag: ""
+  tag: "v1.0.0"
 
 # dockerhub public 
 # private docker registry 
-imagePullSecrets: []
+imagePullSecrets: 
+  - name: nexus-registry-secret-v2 
 nameOverride: ""
 fullnameOverride: "appfordev"
 

@@ -86,3 +86,16 @@ helm upgrade nginx-release nginx-chart \
 
 # how to copy the existing values.yaml of the chart that we want to deploy ! 
 ```
+
+
+* Working with private images in k8s or hellm 
+1. Create yaml ( SECRET , config (encrypted base64 ))
+2. using commandline 
+```bash 
+kubectl create secret docker-registry nexus-registry-secret-v2 \
+  --docker-server="registry-new.devnerd.store" \
+  --docker-username=admin \
+  --docker-password=nexushelloworld \
+  --docker-email=example@gmail.com
+
+```

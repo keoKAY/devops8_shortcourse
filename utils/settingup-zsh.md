@@ -30,4 +30,11 @@ sudo apt install -y nginx certbot python3-certbot-nginx
 sudo certbot --nginx -d   nexus-new-ui.devnerd.store
 sudo certbot --nginx -d   registry-new.devnerd.store
 
+
+docker login -u admin registry-new.devnerd.store
+docker pull nginx:latest 
+docker tag nginx:latest registry-new.devnerd.store/nexus-nginx:v1.0.0
+docker push registry-new.devnerd.store/nexus-nginx:v1.0.0
+
+docker pull registry-new.devnerd.store/nexus-nginx:v1.0.0
 ```

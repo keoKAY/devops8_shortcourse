@@ -1,10 +1,10 @@
 appName: 
   app: nginx 
-replicas: 5
+replicas: 7
 
 # 
 container: 
   name: nginx-cont 
   image: nginx:latest
-  port: 80 
+  port: 8080 
       

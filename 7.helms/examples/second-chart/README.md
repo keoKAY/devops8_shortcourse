@@ -18,6 +18,11 @@ helm template nginx-release second-chart
 helm install release-name chart-name 
 
 helm upgrade release-name chart-name --install 
+
+helm list 
+# to see the deployment 
+kubectl get deployment 
+kubectl get deploy 
 # generate name 
 # helm install chart-name --generate
 ```

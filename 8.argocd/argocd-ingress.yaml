@@ -1,0 +1,32 @@
+# default namespace ( ingress )
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata: 
+  name: argocd-ingress
+  namespace: argocd 
+  annotations: 
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+spec:
+  ingressClassName: "nginx"
+  tls: 
+    - hosts: 
+      - k8s-argocd.devnerd.store 
+      secretName: k8s-argocd-tls
+  rules: 
+    - hosts: 
+      http: 
+        paths: 
+          - path: "/"
+            pathType: Prefix 
+            backend: 
+              service: 
+                name: argocd-server 
+                port: 
+                  name: https
+
+# k apply -f argocd-ingress.yaml
+# k get ingress -n argocd

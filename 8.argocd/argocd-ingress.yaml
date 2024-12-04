@@ -9,7 +9,7 @@ metadata:
   annotations: 
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
-    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: "nginx"
   tls: 
@@ -17,7 +17,7 @@ spec:
       - k8s-argocd.devnerd.store 
       secretName: k8s-argocd-tls
   rules: 
-    - hosts: 
+    - host: k8s-argocd.devnerd.store 
       http: 
         paths: 
           - path: "/"

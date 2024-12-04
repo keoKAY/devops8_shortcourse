@@ -19,3 +19,26 @@ k get pod -n argocd
 k apply -f argocd-ingress.yaml
 k get ingress -n argocd
 ```
+* Login to argocd web ui 
+
+```bash 
+kubectl -n argocd get secret \
+    argocd-initial-admin-secret \
+    -o jsonpath="{.data.password}" | base64 -d
+
+# pass: argocdhelloworld
+```
+
+
+# Create first application in argocd 
+```bash 
+# gh , glab -> create repo from terminal 
+# 1. deployment.yaml , service.yaml , ingress.yaml 
+
+
+# 1. create a git project that store helm 
+/home/keo/helm_projects
+
+helm create nginx-argocd-chart
+# update the values.yaml to whatever you want. 
+```

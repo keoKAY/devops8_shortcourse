@@ -42,3 +42,21 @@ kubectl -n argocd get secret \
 helm create nginx-argocd-chart
 # update the values.yaml to whatever you want. 
 ```
+
+
+# Changing the default polling interval 
+* configmap , change the interval inside the configMap 
+* configure with webhook of our git 
+    * github
+    * gitlab 
+    * bitbucket 
+    * ... 
+
+* in order to get the secret of argocd in order to use in the webhook config 
+```bash 
+k edit secret argocd-secret -n argocd
+
+
+# Add the github wehook secret for the secure communication 
+webhook.github.secret: "github5555" 
+```

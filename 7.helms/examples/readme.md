@@ -19,7 +19,8 @@ curl -u admin:nexushelloworld \
     --upload-file nginx-chart-0.1.0.tgz 
 
 helm repo list 
-helm repo add repo-url 
+# helm repo add repo-url 
+
 helm repo add my-nginx \
     https://nexus-new-ui.devnerd.store/repository/helm-repo/ \
     --username admin \
@@ -27,6 +28,7 @@ helm repo add my-nginx \
 helm repo update 
 helm repo list 
 
-helm install nginx-release  my-nginx/nginx-chart 
+helm install nginx-release \
+     my-nginx/nginx-chart 
 # nginx-chart -> it is the name of the chart that we store nexusoss 
 ```

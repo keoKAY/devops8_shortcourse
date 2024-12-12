@@ -1,0 +1,21 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule 
+metadata: 
+  name: nginx-count-pod-2-alertrule
+  labels: 
+    release: monitor-stack-release
+spec: 
+  groups: 
+    - name: "nginx.rules"
+      rules: 
+        - alert: NginxPodCountLow
+          # PromptQL
+          expr: sum(kube_pod_status_ready{condition="true", namespace="default", pod=~"nginx-deployment-.*"}) < 3
+          for: 5s 
+          labels: 
+            severity: critical 
+            alertname: NginxPodCountLow2
+          annotations: 
+            summary: "Nginx Pod is less than 2 "
+            description: "The number of nginx deployment pod is less than 3"
+  

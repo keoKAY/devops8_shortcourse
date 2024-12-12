@@ -13,6 +13,7 @@ dockerurl: https://registry-new.devnerd.store/
 # package the chart in order to reduced the size and store in repo 
 helm package nginx-chart 
 # nginx-chart-0.1.0.tgz
+
 # upload chart to nexus repo 
 curl -u admin:nexushelloworld \
     https://nexus-new-ui.devnerd.store/repository/helm-repo/ \

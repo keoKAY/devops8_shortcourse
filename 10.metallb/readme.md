@@ -73,7 +73,7 @@ Useful when :
 
 - Cookies based affinitiy 
 ```yaml 
-metadata:   
+metadata:  
     annotation: 
         nginx.ingress.kubernets.io/affinity : "cookie" 
         nginx.ingress.kubernetes.io/session-cookie-name: "INGRESSCOOKIES" 
@@ -83,4 +83,52 @@ metadata:
 ```yaml 
 nginx.ingress.kubernetes.io/upstream-hash-by: "$request_uri"
 
-````
+```
+
+There is a issue 
+
+## Why MetalLB Pools works ( or Doesn't )
+MetalLB requirements (L2Mode)
+- IP must be 
+    - in the same layer2 network as the node
+    - Unusednot assigned to any VM, router, or services ) 
+- Traffic delivered via ARP / NDP 
+
+### Why MetalLB MOde Doesn't Work on GCP 
+Google CLoud: '
+- DOesn't allow ARP broadcasting 
+- Deson't allow IP takeover 
+- Assigns IP via VPC routing , Not L2 
+
+Note that 👍
+- MetalLB is for bare-metal kuberneteds 
+- MetalLB is not for GKE/ GCP public Traffic. 
+
+
+MetalLB Layer2 mode requires: 
+- ARP broadcasting 
+- IP takeover ( one node answering for an IPT doens't own )
+- A flat layer2 network. 
+
+
+Google VCP doesn't allow: 
+- ARP broadcasting 
+- VRRP 
+- FLoating IPs 
+- Gratuitous ARP 
+- IP ownershipt change between VM. 
+
+
+## When HAProxy + Keepalived is GOOD solutions 
+- Works well in : 
+    - bare-metal kubernetes 
+    - on-prem data centers
+    - Home labs 
+    - VMs on network where you control the layer2
+    - Environments without a cloud load balancer 
+
+
+- Why it works here : 
+    - Keepalived use VRRP to move a Virutal IP (VIP ) between machines 
+    - HAProxy listens on that VIP 
+    - If one LB node dies -> VIP move -> traffic continues. 

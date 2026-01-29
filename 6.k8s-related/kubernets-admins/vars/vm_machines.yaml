@@ -1,36 +1,36 @@
 vms: 
-  - name: lb-master 
-    ip: 192.168.56.9 
-    memory: 512
-    cpus: 1 
-    box: "ubuntu/jammy64"
-    path: "../vagrant_vms/lb-master"
+  # - name: lb-master 
+  #   ip: 192.168.56.9 
+  #   memory: 512
+  #   cpus: 1 
+  #   box: "ubuntu/jammy64"
+  #   path: "../vagrant_vms/lb-master"
   
-  - name: lb-backup
-    ip: 192.168.56.15 
-    memory: 512
-    cpus: 1
-    box: "ubuntu/jammy64"
-    path: "../vagrant_vms/lb-backup"
+  # - name: lb-backup
+  #   ip: 192.168.56.15 
+  #   memory: 512
+  #   cpus: 1
+  #   box: "ubuntu/jammy64"
+  #   path: "../vagrant_vms/lb-backup"
 
-  - name: master1 
-    ip: 192.168.56.10 
-    memory: 2048
-    cpus: 1 
-    box: "ubuntu/jammy64"
-    path: "../vagrant_vms/master1"
+  # - name: master1 
+  #   ip: 192.168.56.10 
+  #   memory: 2048
+  #   cpus: 1 
+  #   box: "ubuntu/jammy64"
+  #   path: "../vagrant_vms/master1"
   
-  - name: master2
-    ip: 192.168.56.11 
-    memory: 2048
-    cpus: 1
-    box: "ubuntu/jammy64"
-    path: "../vagrant_vms/master2"
+  # - name: master2
+  #   ip: 192.168.56.11 
+  #   memory: 2048
+  #   cpus: 1
+  #   box: "ubuntu/jammy64"
+  #   path: "../vagrant_vms/master2"
     
   - name: master3
     ip: 192.168.56.12 
-    memory: 2048
-    cpus: 1
+    memory: 4096 # 4GiB
+    cpus: 2
     box: "ubuntu/jammy64"
     path: "../vagrant_vms/master3"
   

@@ -1,0 +1,13 @@
+iac: 
+    echo "Creating VMs for the workflow...."
+    ansible-playbook playbooks/iaC.yaml 
+
+reset-ssh:
+    ssh-keygen -R 192.168.56.12
+    ssh-keygen -R 192.168.56.13
+up-all: 
+    cd vm_machines/master3 && vagrant up 
+    cd vm_machines/agent1 && vagrant up 
+down-all: 
+    cd vm_machines/master3 && vagrant up 
+    cd vm_machines/agent1 && vagrant up 

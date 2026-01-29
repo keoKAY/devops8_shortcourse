@@ -1,0 +1,29 @@
+---
+- name: Create Infrastructure 
+  hosts: localhost 
+  #become: true 
+  gather_facts: false 
+
+  vars_files: 
+    - ../vars/vm_machines.yaml 
+  
+  tasks: 
+    # ensure the vagrant_vms directory exists 
+
+    - name: Ensure VM directory exists
+      file:
+        path: "{{ item.path }}"
+        state: directory
+      loop: "{{ vms }}"
+    - name: Generate Vagrant Config file 
+      template: 
+        src: ../templates/vagrant_template.j2
+        dest: "{{item.path}}/Vagrantfile"
+      vars: 
+        vm: "{{item}}"
+      loop: "{{vms}}"
+    - name: Bring up the VM with Vagrant
+      command: vagrant up
+      args:
+        chdir: "{{ item.path }}"
+      loop: "{{ vms }}"

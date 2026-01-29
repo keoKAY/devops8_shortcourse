@@ -24,3 +24,7 @@ sudo systemctl enable --now libvirtd
 sudo usermod -aG libvirt,kvm $USER
 
 ```
+
+# Versions that I am using 
+- Vagrant 2.4.9
+- Virtualbox 7.2.6 

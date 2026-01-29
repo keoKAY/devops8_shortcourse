@@ -1,5 +1,8 @@
 ## NOTE 
 Working with the kuberbenete admins in order to administrate all the kubernetes related concepts 
+- Video that I follow: 
+    - https://www.youtube.com/watch?v=Fr9GqFwl6NM
+
 
 ### Some prerequsites for this 
 - A Compactible Linux HOSTS (ex. Ubuntu 22.04)
@@ -86,4 +89,15 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 # removing the taints 
 kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+
+
+# for adding the flannel network 
+kubectl apply -f https://github.com/fannel-io/fannel/releases/latest/download/kube-flannel.yml 
+# without this the pod cannot communicate with each other , and coredns won't be working properly 
+
+
+# to verify if you are setting it properly 
+kubectl get nodes 
+kcetl get pods -n kube-system 
+
 ```

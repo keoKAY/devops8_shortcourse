@@ -1,2 +1,12 @@
+# - name: Join cluster
+#   shell: "{{ hostvars[groups['k8s_masters'][0]].kubeadm_join_command }}"
+- name: Check if worker is already joined
+  stat: 
+    path: /etc/kubernetes/kubelet.conf
+  register: kubelet_conf 
 - name: Join cluster
-  shell: "{{ hostvars[groups['k8s_masters'][0]].kubeadm_join_command }}"
+  shell: "{{ lookup('file', '/tmp/k8s_join_command') }} --ignore-preflight-errors=DirAvailable--etc-kubernetes-manifests"
+  # This prevents the worker from trying to join twice if already joined
+  when: not kubelet_conf.stat.exists 
+  args:
+    creates: /etc/kubernetes/kubelet.conf

@@ -1,3 +1,27 @@
+- name: Install dependencies for Kubernetes 
+  apt: 
+    name: 
+      - apt-transport-https 
+      - ca-certificates
+      - curl 
+      - gpg 
+    state: present 
+- name: Create directory for Kubernetes keyrings 
+  file: 
+    path: /etc/apt/keyrings 
+    state: directory 
+    mode: '0755'
+- name: Download Kubernetes GPG key
+  get_url:
+    url: https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key
+    dest: /etc/apt/keyrings/kubernetes-apt-keyring.asc
+    mode: '0644'
+- name: Add Kubernetes apt repository
+  apt_repository:
+    repo: "deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.asc] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /"
+    state: present
+    filename: kubernetes
+
 - name: Install kubernetes package 
   apt: 
     name: 
@@ -5,6 +29,15 @@
       - kubeadm 
       - kubectl 
     state: present 
+    update_cache: yes 
 
-- name: hold packages 
-  shell: apt-mark hold kubelet kubeadm kubectl 
+- name: Hold kubernetes packages 
+  dpkg_selections: 
+    name: "{{ item }}"
+    selection: hold 
+  loop: 
+    - kubelet 
+    - kubeadm 
+    - kubectl 
+# - name: hold packages 
+#   shell: apt-mark hold kubelet kubeadm kubectl 

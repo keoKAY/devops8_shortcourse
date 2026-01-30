@@ -2,12 +2,21 @@ iac:
     echo "Creating VMs for the workflow...."
     ansible-playbook playbooks/iaC.yaml 
 
+ping-all: 
+    ansible k8s -m ping 
+
 reset-ssh:
     ssh-keygen -R 192.168.56.12
     ssh-keygen -R 192.168.56.13
+
 up-all: 
-    cd vm_machines/master3 && vagrant up 
-    cd vm_machines/agent1 && vagrant up 
+    cd vagrant_vms/master3 && vagrant up 
+    cd vagrant_vms/agent1 && vagrant up 
 down-all: 
-    cd vm_machines/master3 && vagrant up 
-    cd vm_machines/agent1 && vagrant up 
+    cd vagrant_vms/master3 && vagrant up 
+    cd vagrant_vms/agent1 && vagrant up 
+
+cluster: 
+    ansible-playbook playbooks/cluster.yaml 
+rbac: 
+    ansible-playbook playbooks/rbac.yaml 

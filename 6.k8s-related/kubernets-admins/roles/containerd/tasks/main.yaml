@@ -3,7 +3,19 @@
     name: containerd 
     state: present 
     update_cache: yes 
-- name: Configure containerd 
-  shell: |
-    containerd config default | tee /etc/containerd/config.toml 
-    system restart containerd 
+- name: Ensure containerd config directly exists 
+  file: 
+    path: /etc/containerd 
+    state: directory 
+    mode: '0755'
+- name: Generate default containerd config 
+  shell: containerd config default > /etc/containerd/config.toml 
+  #Optional: Add idempotency so it doesn't overwrite every time 
+  args: 
+    creates: /etc/containerd/config.toml 
+
+- name: Restart containerd 
+  systemd: 
+    name: containerd 
+    state: restarted 
+    enabled: yes 

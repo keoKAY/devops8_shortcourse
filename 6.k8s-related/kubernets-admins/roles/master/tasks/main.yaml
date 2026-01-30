@@ -1,23 +1,91 @@
-- name: Initialize first control plane 
+
+
+- name: Check if kubernetes is already initialized
+  stat:
+    path: /etc/kubernetes/admin.conf
+  register: kube_init_check
+
+- name: Reset kubernetes if previous attempt failed 
+  shell: |
+    kubeadm reset -f 
+    rm -rf /etc/cni/net.d 
+    rm -rf /var/lib/etcd 
+    rm -rf /etc/kubernetes 
+  when: not kube_init_check.stat.exists 
+
+- name: Fix containerd config for kubernetes (SystemdCgroup )
+  shell: |
+    mkdir -p /etc/containerd 
+    containerd config default > /etc/containerd/config.toml
+    sed -i 's/SystemdCgroup = false/SystemdCgroup = true/g' /etc/containerd/config.toml
+  notify: restart containerd
+  when: not kube_init_check.stat.exists
+- name: Flush handlers to restarted containerd immediately 
+  meta: flush_handlers 
+- name: Initialize first control plane
   command: >
     kubeadm init 
     {% if control_plane_endpoint is defined %}
     --control-plane-endpoint {{ control_plane_endpoint }}
     --upload-certs
     {% endif %}
+    --apiserver-advertise-address={{ ansible_host }}
     --pod-network-cidr {{ pod_network_cidr }}
-  when: inventory_hostname == groups['k8s_masters'][0]
-  register: kubeadm_init 
+  register: kubeadm_init_output
+  when: 
+    - inventory_hostname == groups['k8s_masters'][0]
+    - not kube_init_check.stat.exists
 
-- name: Save join command 
-  copy: 
-    content: "{{ kubeadm_init.stdout }}"
-    dest: /tmp/kubedam-init.out
-  when: inventory_hostname == groups['k8s_masters'][0]
-
-- name: Install Flannel CNI 
-  shell: |
-    kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+- name: Create .kube directory for root
+  file:
+    path: ~/.kube
+    state: directory
+    mode: '0755'
   when: inventory_hostname == groups['k8s_masters'][0]
 
-# groups['k8s_masters'][0] -> first master dynamically 
+- name: Copy admin.conf to root's kubeconfig
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: ~/.kube/config
+    remote_src: yes
+  when: inventory_hostname == groups['k8s_masters'][0]
+- name: Wait for Port 6443 (API Server) to be ready
+  wait_for:
+    port: 6443
+    host: "{{ ansible_host }}"
+    delay: 10
+    timeout: 300
+
+- name: Wait for API Server to return 200 OK
+  uri:
+    url: "https://127.0.0.1:6443/healthz"
+    validate_certs: no
+  register: api_health
+  until: api_health.status == 200
+  retries: 10
+  delay: 5
+- name: Generate and save worker join command
+  shell: kubeadm token create --print-join-command
+  register: worker_join_command
+  when: inventory_hostname == groups['k8s_masters'][0]
+
+# - name: Save join command to local file
+#   copy:
+#     content: "{{ worker_join_command.stdout }}"
+#     dest: "/tmp/k8s_join_command"
+#   delegate_to: localhost
+#   become: no 
+#   when: inventory_hostname == groups['k8s_masters'][0]
+
+- name: Save join command to local file 
+  local_action: 
+    module: copy 
+    content: "{{ worker_join_command.stdout }}"
+    dest: "/tmp/k8s_join_command"
+  become: no 
+  when: inventory_hostname == groups['k8s_masters'][0]
+- name: Install Flannel CNI
+  shell: kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+  environment:
+    KUBECONFIG: /etc/kubernetes/admin.conf
+  when: inventory_hostname == groups['k8s_masters'][0]

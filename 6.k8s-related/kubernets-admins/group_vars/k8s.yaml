@@ -1,6 +1,7 @@
 kubernetes_version: "1.29.0"
 pod_network_cidr: "10.244.0.0/16"
 
+
 # Adding this when we have a stable load balancer 
 #control_plane_endpoint: "192.168.56.100:6443" # Virtual IP / LB
 

@@ -9,6 +9,7 @@
     rm -rf /etc/cni/net.d 
     rm -rf /var/lib/etcd 
     rm -rf /etc/kubernetes 
+    systemctl restart containerd 
   when: not kube_init_check.stat.exists 
 
 - name: Fix containerd config for kubernetes (SystemdCgroup)
@@ -23,15 +24,24 @@
 - name: Flush handlers to restarted containerd immediately 
   meta: flush_handlers 
 
+    # {% if control_plane_endpoint is defined %}
+    # --control-plane-endpoint {{ control_plane_endpoint }}
+    # --upload-certs
+    # {% endif %}
+    # --apiserver-advertise-address={{ ansible_host }}
+    # --pod-network-cidr {{ pod_network_cidr }}
+
+- name: Showing the private IP 
+  debug: 
+    msg: "This is the IP : {{ ansible_host }}"
+# if it's NAT IP it's buillshit 
 - name: Initialize first control plane
   command: >
     kubeadm init 
-    {% if control_plane_endpoint is defined %}
-    --control-plane-endpoint {{ control_plane_endpoint }}
-    --upload-certs
-    {% endif %}
     --apiserver-advertise-address={{ ansible_host }}
-    --pod-network-cidr {{ pod_network_cidr }}
+    --pod-network-cidr={{ pod_network_cidr }}
+    --cri-socket=unix:///run/containerd/containerd.sock
+    --ignore-preflight-errors=all
   register: kubeadm_init_output
   when: 
     - inventory_hostname == groups['k8s_masters'][0]

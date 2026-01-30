@@ -28,3 +28,8 @@ sudo usermod -aG libvirt,kvm $USER
 # Versions that I am using 
 - Vagrant 2.4.9
 - Virtualbox 7.2.6 
+
+
+*** 
+Error setting up the kubenetes 
+![wrong-ip-for-vm-env](image.png)

@@ -1,0 +1,4 @@
+- hosts: k8s_masters[0]
+  become: yes 
+  roles: 
+    - rbac 

@@ -1,0 +1,13 @@
+- name: Ready-only role 
+  copy: 
+    dest: /tmp/readonly.yaml 
+    content: |
+      apiVersion: rbac.authorization.k8s.io/v1
+      kind: ClusterRole
+      metadata: 
+        name: readonly 
+      rules: 
+      - apiGroups: [""]
+        resources: ["pods","services", "nodes"]
+        verbs: ["get","list","watch"]
+- shell: kubectl apply -f /tmp/readonly.yaml

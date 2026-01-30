@@ -1,0 +1,9 @@
+- name: Install containerd
+  apt: 
+    name: containerd 
+    state: present 
+    update_cache: yes 
+- name: Configure containerd 
+  shell: |
+    containerd config default | tee /etc/containerd/config.toml 
+    system restart containerd 

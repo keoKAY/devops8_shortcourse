@@ -1,0 +1,23 @@
+- name: Initialize first control plane 
+  command: >
+    kubeadm init 
+    {% if control_plane_endpoint is defined %}
+    --control-plane-endpoint {{ control_plane_endpoint }}
+    --upload-certs
+    {% endif %}
+    --pod-network-cidr {{ pod_network_cidr }}
+  when: inventory_hostname == groups['k8s_masters'][0]
+  register: kubeadm_init 
+
+- name: Save join command 
+  copy: 
+    content: "{{ kubeadm_init.stdout }}"
+    dest: /tmp/kubedam-init.out
+  when: inventory_hostname == groups['k8s_masters'][0]
+
+- name: Install Flannel CNI 
+  shell: |
+    kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+  when: inventory_hostname == groups['k8s_masters'][0]
+
+# groups['k8s_masters'][0] -> first master dynamically 

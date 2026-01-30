@@ -1,0 +1,10 @@
+- name: Install kubernetes package 
+  apt: 
+    name: 
+      - kubelet
+      - kubeadm 
+      - kubectl 
+    state: present 
+
+- name: hold packages 
+  shell: apt-mark hold kubelet kubeadm kubectl 

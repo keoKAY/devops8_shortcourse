@@ -1,0 +1,5 @@
+- name: Create admin ClusterRoleBinding 
+  shell: |
+    kubectl create clusterrolebinding admin-binding \
+      --clusterrole=cluster-admin \
+      --user=admin-user 

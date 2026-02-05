@@ -13,10 +13,17 @@ spec:
     spec:
       containers:
       - name: spring-file-app
-        image: <Image>
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+        image: 69966/springgradleimg:1.1.1 
+        # resources:
+        #   limits:
+        #     memory: "128Mi"
+        #     cpu: "500m"
         ports:
         - containerPort: 8080
+        volumeMounts: 
+          - name: spring-vol 
+            mountPath: /app/src/main/resources/images
+      volumes: 
+        - name: spring-vol 
+          persistentVolumeClaim: 
+              claimName: my-demo-longhorn

@@ -45,8 +45,8 @@ helm install longhorn longhorn/longhorn \
   --create-namespace \
   --set persistence.defaultClassReplicaCount=2
 ```
-
-
+![output-when-setting-up-longhorn](image.png)
+![result-after-getting-storageclass](image-1.png)
 
 ### 3. Using Longhorn instead of NFS
 NFS, we are typically manually create the path and mount it. In longhorn , we don't really need any of that; we just ask Kubernetes for it using `PersistentVolumeClaim`. 
@@ -108,3 +108,5 @@ kubectl port-forward -n longhorn-system \
 
 > **NOTES** 
 > Longhorn defaults to `ReadWriteOnce` (one pod at a time ). If you need multiple pods to read/write to the same folder (like nFS ), you must enabled the RWX features in the longhorn UI, which internally spins up a small NFS server for that specific volumes. 
+
+*** 

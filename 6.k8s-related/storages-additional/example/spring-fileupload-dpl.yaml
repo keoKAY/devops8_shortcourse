@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-file-dpl
+spec:
+  selector:
+    matchLabels:
+      app: spring-file-app
+  template:
+    metadata:
+      labels:
+        app: spring-file-app
+    spec:
+      containers:
+      - name: spring-file-app
+        image: <Image>
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8080

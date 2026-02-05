@@ -100,7 +100,10 @@ spec:
 
 #### Accessing the UI 
 Longhorn comes with great dashboard. You can access it by port-forwarding 
-```bash 
+```bash
+
+kubectl get pod -n longhorn-system 
+kubectl get svc -n longhorn-system 
 kubectl port-forward -n longhorn-system \
     svc/longhorn-frontend 8080:80 
 ```

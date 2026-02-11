@@ -214,3 +214,17 @@ Avoid putting the Database inside the kubernetes if :
 - You don't understand the quorum. 
 
 Because DB Loss = business Loss. 
+
+
+*** 
+A little bit of protocol in order to search : 
+
+- DNS 
+- DHCP 
+- ARP 
+- HTTPS
+- TSL 
+- ICMP 
+- NTP 
+- SNMP 
+- KERBEROS 

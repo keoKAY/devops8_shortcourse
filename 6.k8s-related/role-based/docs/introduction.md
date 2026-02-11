@@ -7,7 +7,7 @@ Kubernetes RBAC uses four main objects to decided "Who can do what "
 - `ClusterRoleBinding`: Grants a **ClusterRole** to a user/gropup for the whole cluster 
 
 *** 
-- Practice: 
+- **Practice**: 
 let's simulate the real team setup. We will create a `Developer` role that can only manage apps in the `alpha-team` namespace, but cannot touch `kube-system` or delete your Longhorn storages
 
 1. Create the namespace 

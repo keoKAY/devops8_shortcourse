@@ -1,0 +1,18 @@
+frontend:
+  image: yourdocker/react-app:latest
+  replicaCount: 2
+  service:
+    port: 80
+
+backend:
+  image: yourdocker/spring-api:latest
+  replicaCount: 2
+  service:
+    port: 8080
+
+postgres:
+  image: postgres:15
+  database: appdb
+  username: appuser
+  password: apppassword
+  storage: 5Gi

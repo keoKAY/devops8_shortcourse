@@ -305,3 +305,12 @@ kuztomize edit fix
 ### CRDs and Opera tors
 - **Custom Resource Definition (CRD )**: Allows you to extend the kubernetes API with your own custom resouce types (ex. Database Object )
 - **Operators**: A Custom controller that uses CRDs to manage applications and automate complex operational tasks like backup, failover, and upgrade. 
+
+
+## TroubleShooting 
+A structural approach 
+1. Identify the problem 
+2. Gather information 
+3. Analyze the Data
+4. Implement a Solutions 
+5. Verify the solutions 

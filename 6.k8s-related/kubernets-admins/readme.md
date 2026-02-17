@@ -298,14 +298,13 @@ kuztomize edit fix
 ![different-helm-kustomiz](image-2.png)
 
 ## Extending the kubernetes (Extension interface )
-- CRI (Container Runtime Interface ): Decouples kubernetes from a specific container runtime 
-- CNI (Container Network Interface ): Allow different networking solutions to provide Pod networking 
-- CSI (Container Storage interface ) : A standard for exposing storage systems to containerized workloads. 
+- **CRI (Container Runtime Interface )**: Decouples kubernetes from a specific container runtime 
+- **CNI (Container Network Interface )**: Allow different networking solutions to provide Pod networking 
+- **CSI (Container Storage interface )**: A standard for exposing storage systems to containerized workloads. 
 
 ### CRDs and Opera tors
 - **Custom Resource Definition (CRD )**: Allows you to extend the kubernetes API with your own custom resouce types (ex. Database Object )
 - **Operators**: A Custom controller that uses CRDs to manage applications and automate complex operational tasks like backup, failover, and upgrade. 
-
 
 ## TroubleShooting 
 A structural approach 
